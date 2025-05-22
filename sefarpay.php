@@ -28,4 +28,15 @@ function sefarpay_admin_notice()
         delete_transient('sefarpay_activation_notice');
     }
 }
+
+function sefarpay_render_html_view($filename)
+{
+    $path = plugin_dir_path(__FILE__) . 'views/' . $filename;
+    if (file_exists($path)) {
+        include $path;
+    } else {
+        echo '<div class="notice notice-error"><p>Vue non trouvée : ' . esc_html($filename) . '</p></div>';
+    }
+}
+
 add_action('admin_notices', 'sefarpay_admin_notice');
