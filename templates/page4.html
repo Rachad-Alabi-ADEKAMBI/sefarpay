@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facture CMD7A8B9C0</title>
+    <style>
+        :root {
+            --primary-color: #0054A6;
+            --primary-light: #1a6bc2;
+            --secondary-color: #3AA7AA;
+            --light-gray: #f8f9fa;
+            --medium-gray: #e9ecef;
+            --dark-gray: #343a40;
+            --white: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: var(--light-gray);
+            color: var(--dark-gray);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .invoice-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--white);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .invoice-header {
+            padding: 30px;
+            border-bottom: 1px solid var(--medium-gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .company-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .company-logo {
+            width: 150px;
+            height: auto;
+            margin-right: 20px;
+        }
+
+        .company-details h2 {
+            color: var(--primary-color);
+            margin-bottom: 5px;
+            font-size: 1.5rem;
+        }
+
+        .company-details p {
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin-bottom: 3px;
+        }
+
+        .invoice-title {
+            text-align: right;
+        }
+
+        .invoice-title h1 {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-bottom: 5px;
+        }
+
+        .invoice-title p {
+            color: #6c757d;
+            font-size: 1rem;
+        }
+
+        .invoice-body {
+            padding: 30px;
+        }
+
+        .invoice-details {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+
+        .client-info, .payment-info {
+            flex: 1;
+        }
+
+        .info-title {
+            color: var(--primary-color);
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 5px;
+            display: inline-block;
+        }
+
+        .info-item {
+            margin-bottom: 5px;
+        }
+
+        .info-label {
+            font-weight: bold;
+            color: #495057;
+        }
+
+        .invoice-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
+        .invoice-table th {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 12px 15px;
+            text-align: left;
+        }
+
+        .invoice-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--medium-gray);
+        }
+
+        .invoice-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .invoice-table .item-name {
+            font-weight: bold;
+        }
+
+        .invoice-table .item-description {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .invoice-totals {
+            width: 350px;
+            margin-left: auto;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--medium-gray);
+        }
+
+        .total-row:last-child {
+            border-bottom: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: var(--primary-color);
+            padding-top: 12px;
+        }
+
+        .invoice-footer {
+            padding: 20px 30px;
+            background-color: var(--light-gray);
+            border-top: 1px solid var(--medium-gray);
+            text-align: center;
+        }
+
+        .support-info {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        .support-info img {
+            width: 100px;
+            margin-right: 15px;
+        }
+
+        .support-text {
+            text-align: left;
+        }
+
+        .support-text p {
+            margin-bottom: 5px;
+        }
+
+        .support-number {
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .thank-you {
+            margin-top: 15px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .invoice-notes {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px dashed var(--medium-gray);
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        @media print {
+            body {
+                background-color: var(--white);
+                padding: 0;
+            }
+
+            .invoice-container {
+                box-shadow: none;
+                border-radius: 0;
+            }
+
+            .no-print {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .invoice-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .company-info {
+                flex-direction: column;
+                margin-bottom: 20px;
+            }
+
+            .company-logo {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+
+            .invoice-title {
+                text-align: center;
+            }
+
+            .invoice-details {
+                flex-direction: column;
+            }
+
+            .client-info, .payment-info {
+                margin-bottom: 20px;
+            }
+
+            .invoice-totals {
+                width: 100%;
+            }
+
+            .support-info {
+                flex-direction: column;
+            }
+
+            .support-info img {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+
+            .support-text {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="invoice-container">
+        <div class="invoice-header">
+            <div class="company-info">
+                <img src="https://via.placeholder.com/150x80" alt="Logo de l'entreprise" class="company-logo">
+                <div class="company-details">
+                    <h2>E-Commerce Algérie</h2>
+                    <p>123 Rue des Commerçants, Alger</p>
+                    <p>contact@ecommerce-algerie.dz</p>
+                    <p>+213 555 123 456</p>
+                </div>
+            </div>
+            <div class="invoice-title">
+                <h1>FACTURE</h1>
+                <p>N° CMD7A8B9C0</p>
+                <p>Date: 15/05/2023</p>
+            </div>
+        </div>
+        
+        <div class="invoice-body">
+            <div class="invoice-details">
+                <div class="client-info">
+                    <div class="info-title">Informations client</div>
+                    <div class="info-item">
+                        <span class="info-label">Nom:</span> Ahmed Benali
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Email:</span> ahmed.benali@email.com
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Téléphone:</span> +213 555 123 456
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Adresse:</span> 45 Rue des Oliviers, Alger
+                    </div>
+                </div>
+                
+                <div class="payment-info">
+                    <div class="info-title">Informations de paiement</div>
+                    <div class="info-item">
+                        <span class="info-label">ID Transaction SATIM:</span> TRX123456789
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Code d'autorisation:</span> AUTH987654
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Date de transaction:</span> 15/05/2023 14:30
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Moyen de paiement:</span> CIB
+                    </div>
+                </div>
+            </div>
+            
+            <table class="invoice-table">
+                <thead>
+                    <tr>
+                        <th>Produit</th>
+                        <th>Quantité</th>
+                        <th>Prix unitaire</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="item-name">Smartphone Galaxy S21</div>
+                            <div class="item-description">Smartphone Android, 128GB, Noir</div>
+                        </td>
+                        <td>1</td>
+                        <td>85,000.00 DZD</td>
+                        <td>85,000.00 DZD</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="item-name">Coque de protection</div>
+                            <div class="item-description">Coque silicone transparente</div>
+                        </td>
+                        <td>1</td>
+                        <td>2,500.00 DZD</td>
+                        <td>2,500.00 DZD</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="invoice-totals">
+                <div class="total-row">
+                    <span>Sous-total</span>
+                    <span>87,500.00 DZD</span>
+                </div>
+                <div class="total-row">
+                    <span>Livraison</span>
+                    <span>1,200.00 DZD</span>
+                </div>
+                <div class="total-row">
+                    <span>TVA (19%)</span>
+                    <span>16,853.00 DZD</span>
+                </div>
+                <div class="total-row">
+                    <span>Total TTC</span>
+                    <span>105,553.00 DZD</span>
+                </div>
+            </div>
+            
+            <div class="invoice-notes">
+                <p>Notes:</p>
+                <p>Cette facture sert de preuve d'achat et de garantie pour les produits achetés.</p>
+                <p>Tous les produits sont garantis selon les conditions générales de vente disponibles sur notre site web.</p>
+            </div>
+        </div>
+        
+        <div class="invoice-footer">
+            <div class="support-info">
+                <img src="https://via.placeholder.com/100x50" alt="Logo SATIM">
+                <div class="support-text">
+                    <p>En cas de problème de paiement, veuillez contacter le numéro vert de la SATIM</p>
+                    <p class="support-number">3020</p>
+                </div>
+            </div>
+            
+            <p class="thank-you">Merci pour votre achat!</p>
+        </div>
+    </div>
+</body>
+</html>

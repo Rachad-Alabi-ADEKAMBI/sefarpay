@@ -1,0 +1,32 @@
+.sefarpay-container {
+  margin-top: 20px;
+}
+.sefarpay-button {
+  color: #fff;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.sefarpay-button.small {
+  font-size: 14px;
+  padding: 8px 16px;
+}
+.sefarpay-button.large {
+  font-size: 18px;
+  padding: 14px 28px;
+}
+.sefarpay-cgu {
+  font-size: 0.9em;
+  margin-top: 8px;
+}
+.sefarpay-captcha {
+  margin-top: 10px;
+}
+.card-icon {
+  height: 24px;
+}

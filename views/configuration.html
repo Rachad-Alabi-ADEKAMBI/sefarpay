@@ -840,6 +840,33 @@
             </button>
             <div id="message" class="message"></div>
           </div>
+
+          <input type="hidden" name="action" value="sefarpay_save_config" />
+          <script>
+            document
+              .getElementById("configForm")
+              .addEventListener("submit", async function (e) {
+                e.preventDefault();
+                const form = document.getElementById("configForm");
+                const formData = new FormData(form);
+                const messageBox = document.getElementById("message");
+
+                messageBox.innerHTML = "⏳ Enregistrement en cours...";
+
+                const response = await fetch(ajaxurl, {
+                  method: "POST",
+                  body: formData,
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                  messageBox.innerHTML = `<p style="color:green">✅ ${result.data}</p>`;
+                } else {
+                  messageBox.innerHTML = `<p style="color:red">❌ ${result.data}</p>`;
+                }
+              });
+          </script>
         </form>
       </div>
     </div>

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirection vers SATIM</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #0054A6;
+            --primary-light: #1a6bc2;
+            --primary-dark: #00407d;
+            --secondary-color: #3AA7AA;
+            --secondary-light: #4dbdc0;
+            --secondary-dark: #2a8a8d;
+            --light-gray: #f8f9fa;
+            --medium-gray: #e9ecef;
+            --dark-gray: #343a40;
+            --white: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        body {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+            color: var(--white);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .redirect-container {
+            max-width: 600px;
+            background-color: var(--white);
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            text-align: center;
+            padding: 40px;
+            color: var(--dark-gray);
+        }
+
+        .logo-container {
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            max-width: 200px;
+            height: auto;
+        }
+
+        .redirect-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        .redirect-message {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            color: #6c757d;
+        }
+
+        .loader {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 30px 0;
+        }
+
+        .loader-circle {
+            width: 80px;
+            height: 80px;
+            border: 5px solid var(--medium-gray);
+            border-top: 5px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1.5s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .secure-info {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 30px;
+            color: #6c757d;
+            font-size: 0.95rem;
+        }
+
+        .secure-info i {
+            margin-right: 10px;
+            color: var(--secondary-color);
+            font-size: 1.2rem;
+        }
+
+        .payment-logos {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .payment-logo {
+            height: 40px;
+            width: auto;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .payment-logo:hover {
+            opacity: 1;
+        }
+
+        .cancel-link {
+            display: inline-block;
+            margin-top: 30px;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+
+        .cancel-link:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background-color: var(--medium-gray);
+            border-radius: 3px;
+            margin: 30px 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            width: 0%;
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .redirect-container {
+                padding: 30px 20px;
+            }
+
+            .redirect-title {
+                font-size: 1.5rem;
+            }
+
+            .redirect-message {
+                font-size: 1rem;
+            }
+
+            .loader-circle {
+                width: 60px;
+                height: 60px;
+            }
+
+            .payment-logo {
+                height: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="redirect-container fade-in">
+        <div class="logo-container">
+            <img src="https://via.placeholder.com/200x80" alt="Logo SATIM" class="logo">
+        </div>
+        
+        <h1 class="redirect-title">Redirection vers la plateforme de paiement</h1>
+        <p class="redirect-message">Veuillez patienter, vous êtes en cours de redirection vers la plateforme sécurisée de paiement SATIM...</p>
+        
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress"></div>
+        </div>
+        
+        <div class="loader">
+            <div class="loader-circle"></div>
+        </div>
+        
+        <div class="secure-info">
+            <i class="fas fa-lock"></i>
+            <span>Connexion sécurisée - Vos données bancaires sont protégées</span>
+        </div>
+        
+        <div class="payment-logos">
+            <img src="https://via.placeholder.com/80x40" alt="CIB" class="payment-logo">
+            <img src="https://via.placeholder.com/80x40" alt="Edahabia" class="payment-logo">
+            <img src="https://via.placeholder.com/80x40" alt="SATIM" class="payment-logo">
+        </div>
+        
+        <a href="#" class="cancel-link">Annuler et retourner à la boutique</a>
+    </div>
+
+    <script>
+        // Simuler la progression de la barre de chargement
+        let progress = 0;
+        const progressBar = document.getElementById('progress');
+        
+        const interval = setInterval(() => {
+            progress += 1;
+            progressBar.style.width = progress + '%';
+            
+            if (progress >= 100) {
+                clearInterval(interval);
+                // Dans un environnement réel, la redirection serait automatique
+                // Ici, nous simulons une redirection après 3 secondes
+                setTimeout(() => {
+                    // Redirection vers la page de succès (pour la démonstration)
+                    // Dans un environnement réel, ce serait la page SATIM
+                    alert('Redirection vers la page de paiement SATIM...');
+                    // window.location.href = 'URL_SATIM';
+                }, 500);
+            }
+        }, 50);
+        
+        // Annuler la redirection
+        document.querySelector('.cancel-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            if (confirm('Êtes-vous sûr de vouloir annuler le paiement ?')) {
+                // Redirection vers la page d'origine
+                window.history.back();
+            }
+        });
+    </script>
+</body>
+</html>
