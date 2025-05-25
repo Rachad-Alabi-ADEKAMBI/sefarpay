@@ -9,18 +9,8 @@ function sefarpay_add_admin_menu()
         'Sefarpay',
         'manage_options',
         'sefarpay',
-        'sefarpay_render_configuration_page', // première page affichée
+        'sefarpay_render_accueil_page', // première page affichée
         'dashicons-money-alt',
-        26
-    );
-
-    add_submenu_page(
-        'sefarpay',
-        'Configuration',
-        'Configuration',
-        'manage_options',
-        'sefarpay',
-        'sefarpay_render_configuration_page'
     );
 
     add_submenu_page(
@@ -30,6 +20,15 @@ function sefarpay_add_admin_menu()
         'manage_options',
         'sefarpay-enregistrement',
         'sefarpay_render_enregistrement_page'
+    );
+
+    add_submenu_page(
+        'sefarpay',
+        'Configuration',
+        'Configuration',
+        'manage_options',
+        'sefarpay-cofiguration',
+        'sefarpay_render_configuration_page'
     );
 
     add_submenu_page(
@@ -44,6 +43,14 @@ function sefarpay_add_admin_menu()
 add_action('admin_menu', 'sefarpay_add_admin_menu');
 
 // Fonctions de rendu pour chaque page
+
+function sefarpay_render_accueil_page()
+{
+    echo '<div class="wrap">';
+    sefarpay_render_html_view('accueil.html');
+    echo '</div>';
+}
+
 function sefarpay_render_configuration_page()
 {
     echo '<div class="wrap">';

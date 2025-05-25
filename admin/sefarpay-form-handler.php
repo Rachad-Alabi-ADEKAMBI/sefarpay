@@ -7,7 +7,13 @@ function sefarpay_save_registration()
 {
     global $wpdb;
 
-    // Vérifier la présence des champs nécessaires
+    // Empêcher plusieurs enregistrements
+    $table = $wpdb->prefix . 'sefarpay_enregistrements';
+    $count = $wpdb->get_var("SELECT COUNT(*) FROM $table");
+    if ($count > 0) {
+        wp_send_json_error("Enregistrement déjà effectué.");
+    }
+
     $required_fields = [
         'civilite',
         'nom',
@@ -23,8 +29,8 @@ function sefarpay_save_registration()
         'type_activite',
         'forme_juridique',
         'banque',
-        'email_entite',
-        'telephone_entite',
+        'email_societe',
+        'telephone_societe',
         'numero_registre'
     ];
 
@@ -34,7 +40,7 @@ function sefarpay_save_registration()
         }
     }
 
-    // Gestion du fichier téléversé
+    // Téléversement du document
     if (!empty($_FILES['document']['tmp_name'])) {
         $upload = wp_handle_upload($_FILES['document'], ['test_form' => false]);
         if (isset($upload['url'])) {
@@ -62,21 +68,75 @@ function sefarpay_save_registration()
         'type_activite' => sanitize_text_field($_POST['type_activite']),
         'forme_juridique' => sanitize_text_field($_POST['forme_juridique']),
         'banque' => sanitize_text_field($_POST['banque']),
-        'email_societe' => sanitize_email($_POST['email_entite']),
-        'telephone_societe' => sanitize_text_field($_POST['telephone_entite']),
+        'email_societe' => sanitize_email($_POST['email_societe']),
+        'telephone_societe' => sanitize_text_field($_POST['telephone_societe']),
         'numero_registre' => sanitize_text_field($_POST['numero_registre']),
         'registre_document_url' => esc_url_raw($document_url),
         'statut' => 'en_attente',
         'created_at' => current_time('mysql')
     ];
 
-    // Insertion
-    $table = $wpdb->prefix . 'sefarpay_enregistrements';
+    // Insertion dans la BDD locale
     $result = $wpdb->insert($table, $data);
 
     if ($result) {
+        // Envoi vers API du fournisseur
+        $response = wp_remote_post('http://localhost/sefarpay_management/wp-json/sefarpay_management/v1/register', [
+            'method' => 'POST',
+            'headers' => ['Content-Type' => 'application/json'],
+            'body' => wp_json_encode($data),
+        ]);
+
+        if (is_wp_error($response)) {
+            wp_send_json_error("Erreur API fournisseur : " . $response->get_error_message());
+        }
+
         wp_send_json_success("Enregistrement réussi.");
     } else {
         wp_send_json_error("Erreur lors de l’enregistrement.");
     }
 }
+
+?>
+
+<script>
+    jQuery(document).ready(function($) {
+        $('#sefarpay-form').on('submit', function(e) {
+            e.preventDefault();
+
+            let form = $(this)[0];
+            let formData = new FormData(form);
+            let submitBtn = $('#submit-button');
+            submitBtn.prop('disabled', true);
+
+            // Affiche un console.log lisible
+            let logData = {};
+            formData.forEach((value, key) => {
+                logData[key] = value;
+            });
+            console.log("Requête envoyée :", logData);
+
+            $.ajax({
+                url: sefarpay_ajax.ajax_url,
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    if (response.success) {
+                        alert(response.data);
+                        form.reset(); // vider les champs
+                    } else {
+                        alert("Erreur : " + response.data);
+                    }
+                    submitBtn.prop('disabled', false);
+                },
+                error: function(err) {
+                    console.log("Erreur AJAX", err);
+                    alert("Erreur réseau.");
+                    submitBtn.prop('disabled', false);
+                }
+            });
+        });
+    });
+</script>

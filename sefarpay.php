@@ -584,7 +584,6 @@ function sefarpay_payment_success_shortcode()
 add_shortcode('sefarpay_confirmation', 'sefarpay_payment_success_shortcode');
 
 
-
 //shortcode payment declined
 function sefarpay_payment_declined_shortcode()
 {
@@ -1013,3 +1012,9 @@ function sefarpay_payment_declined_shortcode()
 }
 
 add_shortcode('sefarpay_declined', 'sefarpay_payment_declined_shortcode');
+
+// traitement de la requête de paiemen
+add_action('admin_post_nopriv_sefarpay_payment', 'sefarpay_handle_payment'); //utilisé pour les utilisateurs non connectés
+add_action('admin_post_sefarpay_payment', 'sefarpay_handle_payment'); //utilisé pour les utilisateurs connecté
+
+require_once plugin_dir_path(__FILE__) . 'admin/sefarpay-payment-handler.php'; //include du fichier de traitement de la requête de paiement
