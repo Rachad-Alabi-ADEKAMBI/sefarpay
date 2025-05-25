@@ -80,6 +80,7 @@ function sefarpay_payment_success_shortcode()
         return '<p>Order ID manquant.</p>';
     }
 
+
     //recupere les  informations language, username et password  depuis la table sefarpay_configuration,
     global $wpdb;
     $table_name = $wpdb->prefix . 'sefarpay_configuration';
@@ -124,14 +125,79 @@ function sefarpay_payment_success_shortcode()
         'currency'         => $data['Currency'] ?? '',
         'approval_code'    => $data['ApprovalCode'] ?? '',
         'pan'              => $data['Pan'] ?? '',
-        'expiration'       => $data['Expiration'] ?? '',
         'cardholder_name'  => $data['CardholderName'] ?? '',
         'resp_message'     => $data['Params']['RespCodeDesc'] ?? '',
     ];
 
+    var_dump($transaction_data);
+
+    //insertion dans la table de paiemensts locale
+    global $wpdb;
+
+    $table_name = $wpdb->prefix . 'sefarpay_paiements';
+
+    $inserted = $wpdb->insert($table_name, [
+        'numero_commande'     => $transaction_data['order_number'],
+        'montant'             => $transaction_data['amount'],
+        'devise'              => $transaction_data['currency'],
+        'nom_carte'           => $transaction_data['cardholder_name'],
+        'pan'                 => $transaction_data['pan'],
+        'code_acceptation'    => $transaction_data['approval_code'],
+        'code_autorisation'   => $transaction_data['approval_code'],
+        'code_action'         => $transaction_data['order_status'],
+        'description_action'  => $transaction_data['resp_message'],
+        'etat_paiement'       => $transaction_data['order_status'],
+        'description'         => $transaction_data['error_message'],
+        'created_at'          => current_time('mysql', 1),
+    ]);
+
+    if ($inserted === false) {
+        echo '<pre>Erreur d\'insertion : ' . $wpdb->last_error . '</pre>';
+    } else {
+        echo '<pre>Insertion réussie. ID : ' . $wpdb->insert_id . '</pre>';
+    }
+
+    //enregistrer les données dans l'API distante de sefarpay_management
+    $api_url = 'http://localhost/sefarpay_management/wp-json/sefarpay_management/v1/new-payment';
+
+    // Construction des données à envoyer à l'API
+    $payload = [
+        'numero_commande'     => $transaction_data['order_number'],
+        'montant'             => $transaction_data['amount'],
+        'devise'              => $transaction_data['currency'],
+        'nom_carte'           => $transaction_data['cardholder_name'],
+        'pan'                 => $transaction_data['pan'],
+        'code_acceptation'    => $transaction_data['approval_code'],
+        'code_autorisation'   => $transaction_data['approval_code'],
+        'code_action'         => $transaction_data['order_status'],
+        'description_action'  => $transaction_data['resp_message'],
+        'etat_paiement'       => $transaction_data['order_status'],
+        'description'         => $transaction_data['error_message'],
+        'created_at'          => current_time('mysql', 1),
+    ];
+
+    // Envoi de la requête POST à l’API distante
+    $response = wp_remote_post($api_url, [
+        'method'    => 'POST',
+        'timeout'   => 15,
+        'headers'   => [
+            'Content-Type' => 'application/json',
+        ],
+        'body'      => json_encode($payload),
+    ]);
+
+    // Debug
+    if (is_wp_error($response)) {
+        echo '<p>Erreur de communication avec l’API distante : ' . $response->get_error_message() . '</p>';
+    } else {
+        $body = wp_remote_retrieve_body($response);
+        echo '<p>Réponse API distante :</p><pre>' . esc_html($body) . '</pre>';
+    }
+
+
     // Inclusion de la vue
     ob_start();
-    include plugin_dir_path(__FILE__) . 'views/paiement_reussi.php';
+    include plugin_dir_path(__FILE__) . '/views/paiement-reussi.php';
     return ob_get_clean();
 }
 
