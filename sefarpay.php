@@ -162,6 +162,7 @@ function sefarpay_payment_success_shortcode()
 
     // Construction des données à envoyer à l'API
     $payload = [
+        'client_id'          => 1, // ID du client, à adapter selon votre logique
         'numero_commande'     => $transaction_data['order_number'],
         'montant'             => $transaction_data['amount'],
         'devise'              => $transaction_data['currency'],
