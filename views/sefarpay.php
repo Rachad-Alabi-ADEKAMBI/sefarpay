@@ -32,6 +32,9 @@
 
             $amount = $cart_data['subtotal']; // Montant total du panier
 
+            $order = wc_create_order();
+            $orderNumber = $order->get_order_number();
+
             // Données pour personnalisation bouton
             $buttonColor = esc_attr($config_row['button_color'] ?? '#0073aa');
             $buttonSize  = esc_attr($config_row['button_size'] ?? '16px');
@@ -92,6 +95,11 @@
 
                 <label for="amount">Amount:</label>
                 <input type="text" id="amount" name="amount" value="<?php echo $amount; ?>" />
+
+                <label for="OrderNumber">
+                    OrderNumber:
+                    <input type="text" id="OrderNumber" name="orderNumber" value="<?php echo $orderNumber; ?>" />
+                </label>
 
                 <div class="payment-options">
                     <button type="submit"

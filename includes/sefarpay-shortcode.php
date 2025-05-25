@@ -37,6 +37,9 @@ function sefarpay_shortcode()
     if (empty($items)) {
         return '<p>Le panier est vide.</p>';
     } else {
+
+
+
         $cart = WC()->cart;
 
         $cart_data = [
