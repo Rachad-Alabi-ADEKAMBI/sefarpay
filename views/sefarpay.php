@@ -30,10 +30,26 @@
             $jsonParams = esc_textarea($config_row['json_params'] ?? '');
             $cgu = esc_textarea($config_row['cgu_url'] ?? '');
 
-            $amount = $cart_data['total']; // Montant total du panier
+            //$order_number
 
             $order = wc_create_order();
+
+            // Ajouter des produits du panier à la commande
+            foreach (WC()->cart->get_cart() as $cart_item_key => $cart_item) {
+                $order->add_product($cart_item['data'], $cart_item['quantity']);
+            }
+
+            // Ajouter les totaux
+            $order->set_total(WC()->cart->get_total('edit'));
+            $order->save();
+
+            // Récupération des infos
+            $order_id = $order->get_id();
+            $amount = $order->get_total(); // Cela retourne un float ou string comme "124.00"
             $orderNumber = $order->get_order_number();
+
+            echo "Commande #$orderNumber (ID : $order_id) – Montant : $amount";
+
 
             // Données pour personnalisation bouton
             $buttonColor = esc_attr($config_row['button_color']);
@@ -59,7 +75,7 @@
                 <div class="total-row"><span>Sous-total</span><span><?php echo $cart_data['subtotal']; ?></span></div>
                 <div class="total-row"><span>Livraison</span><span><?php echo $cart_data['shipping']; ?></span></div>
                 <div class="total-row"><span>TVA</span><span><?php echo $cart_data['tax']; ?></span></div>
-                <div class="total-row grand-total"><span>Total</span><span><?php echo $cart_data['total']; ?></span></div>
+                <div class="total-row grand-total"><span>Total</span><span><?php echo $amount ?></span></div>
             </div>
         </div>
 
@@ -88,54 +104,91 @@
 
                 <input type="text" id="amount" name="amount" style="display: none;" value="<?php echo $amount; ?>" />
 
-                <input type="text" id="OrderNumber" name="orderNumber" style="display: none;" value="<?php echo $orderNumber; ?>" />
+                <input type="text" id="OrderNumber" name="orderNumber" style="display: none;" value="<?php echo $orderNumber ?>" />
+                <!-- verifier que le client est autorisé à utiliser le plugin sefarpay  -->
+                <?php
+                global $wpdb;
 
-                <div class="payment-options">
-                    <?php
-                    switch ($buttonSize) {
-                        case 'small':
-                            $buttonStyle = 'width: 100px; height: 30px;';
-                            break;
-                        case 'medium':
-                            $buttonStyle = 'width: 150px; height: 40px;';
-                            break;
-                        case 'large':
-                            $buttonStyle = 'width: 200px; height: 50px;';
-                            break;
-                        default:
-                            $buttonStyle = '';
+                $validation_url = 'http://localhost/sefarpay_management/wp-json/sefarpay_management/v1/account_status';
+
+                // Récupérer le sefarpay_id depuis la table sefarpay_enregistrements
+                $table_enregistrements = $wpdb->prefix . 'sefarpay_enregistrements';
+                $sefarpay_id = $wpdb->get_var("SELECT sefarpay_id FROM $table_enregistrements LIMIT 1");
+
+                $status = 'Non configuré';
+
+                if ($sefarpay_id) {
+                    // Construire l’URL avec paramètre GET
+                    $request_url = add_query_arg('sefarpay_id', urlencode($sefarpay_id), $validation_url);
+
+                    // Requête GET
+                    $response = wp_remote_get($request_url);
+
+                    if (!is_wp_error($response)) {
+                        $body = wp_remote_retrieve_body($response);
+                        $status = trim($body); // Suppression des espaces ou retours à la ligne
+                    } else {
+                        $status = 'Erreur de récupération du statut';
                     }
-                    ?>
+                }
+                $status = trim($status, " \t\n\r\0\x0B\"'"); ?>
 
-                    <button type="submit"
-                        id="pay-button"
-                        class="payment-btn"
-                        style="background-color: <?php echo $buttonColor; ?>; <?php echo $buttonStyle; ?>">
-                        <?php echo $buttonText; ?>
-                    </button>
+                <?php if ($status == 'Actif') { ?>
+                    <div class="payment-options">
+                        <?php
+                        switch ($buttonSize) {
+                            case 'small':
+                                $buttonStyle = 'width: 100px; height: 30px;';
+                                break;
+                            case 'medium':
+                                $buttonStyle = 'width: 150px; height: 40px;';
+                                break;
+                            case 'large':
+                                $buttonStyle = 'width: 200px; height: 50px;';
+                                break;
+                            default:
+                                $buttonStyle = '';
+                        }
+                        ?>
+
+                        <button type="submit"
+                            id="pay-button"
+                            class="payment-btn"
+                            style="background-color: <?php echo $buttonColor; ?>; <?php echo $buttonStyle; ?>">
+                            <?php echo $buttonText; ?>
+                        </button>
 
 
-                    <div class="terms-captcha">
-                        <p>
-                            En cliquant sur "Payer", vous acceptez
-                            <a href="<?php echo $cgu; ?>" class="terms-link">nos conditions générales d'utilisation
-                            </a>
-                        </p>
+                        <div class="terms-captcha">
+                            <p>
+                                En cliquant sur "Payer", vous acceptez
+                                <a href="<?php echo $cgu; ?>" class="terms-link">nos conditions générales d'utilisation
+                                </a>
+                            </p>
 
 
 
-                        <div class="captcha-container">
-                            <div class="captcha-header">
-                                <span class="captcha-title">Veuillez saisir le code ci-dessous</span>
-                                <button class="captcha-refresh" title="Actualiser le captcha">
-                                    <i class="fas fa-sync-alt"></i>
-                                </button>
+                            <div class="captcha-container">
+                                <div class="captcha-header">
+                                    <span class="captcha-title">Veuillez saisir le code ci-dessous</span>
+                                    <button class="captcha-refresh" title="Actualiser le captcha">
+                                        <i class="fas fa-sync-alt"></i>
+                                    </button>
+                                </div>
+                                <div class="captcha-image">XD94K7</div>
+                                <input type="text" class="captcha-input" placeholder="Entrez le code" />
                             </div>
-                            <div class="captcha-image">XD94K7</div>
-                            <input type="text" class="captcha-input" placeholder="Entrez le code" />
                         </div>
                     </div>
-                </div>
+                <?php  } else if ($status == 'Inactif') { ?>
+                    <p>
+                        Plugin Inactif, merci de contacter SefarPay
+                    </p>
+                <?php } else { ?>
+                    <p>
+                        Veuillez configurer le plugin Sefarpay
+                    </p>
+                <?php } ?>
             </form>
 
         </div>
@@ -160,6 +213,8 @@
                 .then(data => {
                     if (data.ErrorCode === 0) {
                         // Redirige vers l'URL FormUrl
+
+                        alert('Vous serez redirigé vers le portail de la Satim pour le paiement sécurisé');
                         window.location.href = data.FormUrl;
                     } else {
                         // Affiche le message d'erreur
