@@ -37,6 +37,7 @@
                   id="source_identifier"
                   name="source_identifier"
                   placeholder="Identifiant unique du client"
+                  value="<?php echo esc_attr($configuration['client_identifier'] ?? ''); ?>"
                   required />
               </div>
               <div class="tooltip">
@@ -54,7 +55,8 @@
                   id="username"
                   name="username"
                   placeholder="Identifiant de connexion à l'API SATIM"
-                  required />
+                  required
+                  value="<?php echo esc_attr($configuration['username'] ?? ''); ?>" />
               </div>
             </div>
           </div>
@@ -68,6 +70,7 @@
                   id="password"
                   name="password"
                   placeholder="Mot de passe d'authentification API SATIM"
+                  value="<?php echo esc_attr($configuration['password'] ?? ''); ?>"
                   required />
               </div>
             </div>
@@ -80,6 +83,7 @@
                   id="base_url"
                   name="base_url"
                   placeholder="https://api.satim.dz"
+                  value="<?php echo esc_attr($configuration['base_url_api'] ?? ''); ?>"
                   required />
               </div>
               <div class="tooltip">
@@ -102,9 +106,9 @@
                 <i class="fas fa-money-bill-wave"></i>
                 <select id="currency" name="currency" required>
                   <option value="">Sélectionnez</option>
-                  <option value="DZD">DZD</option>
-                  <option value="EUR">EUR</option>
-                  <option value="USD">USD</option>
+                  <option value="DZD" <?php selected($configuration['currency'] ?? '', 'DZD'); ?>>DZD</option>
+                  <option value="EUR" <?php selected($configuration['currency'] ?? '', 'EUR'); ?>>EUR</option>
+                  <option value="USD" <?php selected($configuration['currency'] ?? '', 'USD'); ?>>USD</option>
                 </select>
               </div>
               <div class="tooltip">
@@ -117,10 +121,11 @@
               <div class="input-wrapper">
                 <i class="fas fa-language"></i>
                 <select id="language" name="language" required>
-                  <option value="">Sélectionnez</option>
-                  <option value="fr">Français (fr)</option>
-                  <option value="en">Anglais (en)</option>
+                  <option value="" <?php selected($configuration['language'] ?? '', ''); ?>>Sélectionnez</option>
+                  <option value="fr" <?php selected($configuration['language'] ?? '', 'fr'); ?>>Français (fr)</option>
+                  <option value="en" <?php selected($configuration['language'] ?? '', 'en'); ?>>Anglais (en)</option>
                 </select>
+
               </div>
               <div class="tooltip">
                 <i class="fas fa-info-circle"></i>
@@ -136,7 +141,8 @@
                 <textarea
                   id="json_params"
                   name="json_params"
-                  placeholder='{"param1": "value1", "param2": "value2"}'></textarea>
+                  placeholder='{"param1": "value1", "param2": "value2"}'
+                  value="<?php echo esc_attr($configuration['json_params'] ?? ''); ?>"></textarea>
               </div>
               <div class="tooltip">
                 <i class="fas fa-info-circle"></i>
@@ -162,7 +168,8 @@
                   id="return_url"
                   name="return_url"
                   placeholder="https://votre-site.com/success"
-                  required />
+                  value="<?php echo esc_attr($configuration['return_url'] ?? ''); ?>"></textarea>
+                required />
               </div>
               <div class="tooltip">
                 <i class="fas fa-info-circle"></i>
@@ -178,7 +185,8 @@
                   id="fail_url"
                   name="fail_url"
                   placeholder="https://votre-site.com/fail"
-                  required />
+                  value="<?php echo esc_attr($configuration['fail_url'] ?? ''); ?>"
+                  required></textarea>
               </div>
               <div class="tooltip">
                 <i class="fas fa-info-circle"></i>
@@ -203,7 +211,7 @@
                   id="captcha_site_key"
                   name="captcha_site_key"
                   placeholder="Clé publique pour reCAPTCHA"
-                  required />
+                  value="<?php echo esc_attr($configuration['captcha_site_key'] ?? ''); ?>"></textarea>
               </div>
               <div class="tooltip">
                 <i class="fas fa-info-circle"></i>
@@ -219,7 +227,7 @@
                   id="captcha_secret_key"
                   name="captcha_secret_key"
                   placeholder="Clé privée pour reCAPTCHA"
-                  required />
+                  value="<?php echo esc_attr($configuration['captcha_secret_key'] ?? ''); ?>"></textarea>
               </div>
               <div class="tooltip">
                 <i class="fas fa-info-circle"></i>
@@ -237,7 +245,8 @@
                   type="url"
                   id="terms_url"
                   name="terms_url"
-                  placeholder="https://votre-site.com/conditions" />
+                  placeholder="https://votre-site.com/conditions"
+                  value="<?php echo esc_attr($configuration['cgu_url'] ?? ''); ?>"></textarea>
               </div>
               <div class="tooltip">
                 <i class="fas fa-info-circle"></i>
@@ -264,6 +273,7 @@
                   id="button_color"
                   name="button_color"
                   value="#0054A6"
+                  value="<?php echo esc_attr($configuration['button_color'] ?? ''); ?>"
                   required />
                 <span
                   id="color_preview"
@@ -275,18 +285,21 @@
                 <span class="tooltip-text">Couleur par défaut pour le bouton de paiement.</span>
               </div>
             </div>
+
             <div class="form-group">
               <label for="button_size" class="required">Taille du bouton</label>
               <div class="input-wrapper">
                 <i class="fas fa-text-height"></i>
                 <select id="button_size" name="button_size" required>
                   <option value="">Sélectionnez</option>
-                  <option value="small">Petit</option>
-                  <option value="medium" selected>Moyen</option>
-                  <option value="large">Grand</option>
+                  <option value="small" <?php selected($configuration['button_size'] ?? '', 'small'); ?>>Petit</option>
+                  <option value="medium" <?php selected($configuration['button_size'] ?? '', 'medium'); ?>>Moyen</option>
+                  <option value="large" <?php selected($configuration['button_size'] ?? '', 'large'); ?>>Grand</option>
                 </select>
+
               </div>
             </div>
+
             <div class="form-group">
               <label for="button_text" class="required">Texte du bouton</label>
               <div class="input-wrapper">

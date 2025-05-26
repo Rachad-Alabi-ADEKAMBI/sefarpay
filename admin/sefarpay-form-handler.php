@@ -77,18 +77,39 @@ function sefarpay_save_registration()
     ];
 
     // Insertion dans la BDD locale
+    // Insertion dans la BDD locale
     $result = $wpdb->insert($table, $data);
 
     if ($result) {
+        $insert_id = $wpdb->insert_id; // ID de la ligne insérée
+
         // Envoi vers API du fournisseur
         $response = wp_remote_post('http://localhost/sefarpay_management/wp-json/sefarpay_management/v1/register', [
-            'method' => 'POST',
+            'method'  => 'POST',
             'headers' => ['Content-Type' => 'application/json'],
-            'body' => wp_json_encode($data),
+            'body'    => wp_json_encode($data),
         ]);
 
         if (is_wp_error($response)) {
             wp_send_json_error("Erreur API fournisseur : " . $response->get_error_message());
+        }
+
+        $body = wp_remote_retrieve_body($response);
+        $json = json_decode($body, true);
+
+        if (isset($json['client_id'])) {
+            // Mettre à jour la colonne sefarpay_id dans la ligne insérée
+            $update_result = $wpdb->update(
+                $table,
+                ['sefarpay_id' => $json['client_id']],
+                ['id' => $insert_id]  // suppose que la clé primaire s'appelle id
+            );
+
+            if ($update_result === false) {
+                wp_send_json_error("Erreur lors de la mise à jour du client_id.");
+            }
+        } else {
+            wp_send_json_error("client_id non reçu dans la réponse API.");
         }
 
         wp_send_json_success("Enregistrement réussi.");

@@ -79,7 +79,15 @@ function sefarpay_render_accueil_page()
 
 function sefarpay_render_configuration_page()
 {
-    sefarpay_render_html_view('configuration.php');
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'sefarpay_configuration';
+
+    // Récupérer un seul enregistrement (exemple: le premier)
+    $configuration = $wpdb->get_row("SELECT * FROM $table_name LIMIT 1", ARRAY_A);
+
+    sefarpay_render_html_view('configuration.php', [
+        'configuration' => $configuration,
+    ]);
 }
 
 /*

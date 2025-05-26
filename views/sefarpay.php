@@ -8,7 +8,6 @@
         </h2>
 
         <div class="satim">
-            <p>satim test</p>
             <?php
             global $wpdb;
             $table_name = $wpdb->prefix . 'sefarpay_configuration';
@@ -29,16 +28,17 @@
             $returnUrl  = esc_url($config_row['return_url'] ?? '');
             $failUrl    = esc_url($config_row['fail_url'] ?? '');
             $jsonParams = esc_textarea($config_row['json_params'] ?? '');
+            $cgu = esc_textarea($config_row['cgu_url'] ?? '');
 
-            $amount = $cart_data['subtotal']; // Montant total du panier
+            $amount = $cart_data['total']; // Montant total du panier
 
             $order = wc_create_order();
             $orderNumber = $order->get_order_number();
 
             // Données pour personnalisation bouton
-            $buttonColor = esc_attr($config_row['button_color'] ?? '#0073aa');
-            $buttonSize  = esc_attr($config_row['button_size'] ?? '16px');
-            $buttonText  = esc_html($config_row['button_text'] ?? 'Payer');
+            $buttonColor = esc_attr($config_row['button_color']);
+            $buttonSize  = esc_attr($config_row['button_size']);
+            $buttonText  = esc_html($config_row['button_text']);
             ?>
 
             <div class="product-list">
@@ -72,47 +72,57 @@
             <form method="get" action="http://localhost/satimtest/do.php?" id="payment-form">
                 <input type="hidden" name="action" value="sefarpay_payment">
 
-                <label for="currency">Currency :</label>
-                <input type="text" id="currency" name="currency" value="<?php echo $currency; ?>" />
+                <input type="text" id="currency" name="currency" style="display: none;" value="<?php echo $currency; ?>" />
 
-                <label for="language">Language :</label>
-                <input type="text" id="language" name="language" value="<?php echo $language; ?>" />
+                <input type="text" id="language" name="language" style="display: none;" value="<?php echo $language; ?>" />
 
-                <label for="userName">Merchant ID :</label>
-                <input type="text" id="userName" name="userName" value="<?php echo $userName; ?>" />
+                <input type="text" id="userName" name="userName" style="display: none;" value="<?php echo $userName; ?>" />
 
-                <label for="password">SATIM Password :</label>
-                <input type="password" id="password" name="password" value="<?php echo $password; ?>" />
+                <input type="password" id="password" name="password" style="display: none;" value="<?php echo $password; ?>" />
 
-                <label for="returnUrl">Return URL :</label>
-                <input type="url" id="returnUrl" name="returnUrl" value="<?php echo $returnUrl; ?>" />
+                <input type="url" id="returnUrl" name="returnUrl" style="display: none;" value="<?php echo $returnUrl; ?>" />
 
-                <label for="failUrl">Fail URL :</label>
-                <input type="url" id="failUrl" name="failUrl" value="<?php echo $failUrl; ?>" />
+                <input type="url" id="failUrl" name="failUrl" style="display: none;" value="<?php echo $failUrl; ?>" />
 
-                <label for="jsonParams">JSON Params :</label>
-                <textarea id="jsonParams" name="jsonParams" rows="4"><?php echo $jsonParams; ?></textarea>
+                <textarea id="jsonParams" name="jsonParams" style="display: none;" rows="4"><?php echo $jsonParams; ?></textarea>
 
-                <label for="amount">Amount:</label>
-                <input type="text" id="amount" name="amount" value="<?php echo $amount; ?>" />
+                <input type="text" id="amount" name="amount" style="display: none;" value="<?php echo $amount; ?>" />
 
-                <label for="OrderNumber">
-                    OrderNumber:
-                    <input type="text" id="OrderNumber" name="orderNumber" value="<?php echo $orderNumber; ?>" />
-                </label>
+                <input type="text" id="OrderNumber" name="orderNumber" style="display: none;" value="<?php echo $orderNumber; ?>" />
 
                 <div class="payment-options">
+                    <?php
+                    switch ($buttonSize) {
+                        case 'small':
+                            $buttonStyle = 'width: 100px; height: 30px;';
+                            break;
+                        case 'medium':
+                            $buttonStyle = 'width: 150px; height: 40px;';
+                            break;
+                        case 'large':
+                            $buttonStyle = 'width: 200px; height: 50px;';
+                            break;
+                        default:
+                            $buttonStyle = '';
+                    }
+                    ?>
+
                     <button type="submit"
                         id="pay-button"
                         class="payment-btn"
-                        style="background-color: <?php echo $buttonColor; ?>; font-size: <?php echo $buttonSize; ?>;">
+                        style="background-color: <?php echo $buttonColor; ?>; <?php echo $buttonStyle; ?>">
                         <?php echo $buttonText; ?>
                     </button>
 
+
                     <div class="terms-captcha">
-                        <a href="#" class="terms-link">
-                            En cliquant sur "Payer", vous acceptez nos conditions générales d'utilisation
-                        </a>
+                        <p>
+                            En cliquant sur "Payer", vous acceptez
+                            <a href="<?php echo $cgu; ?>" class="terms-link">nos conditions générales d'utilisation
+                            </a>
+                        </p>
+
+
 
                         <div class="captcha-container">
                             <div class="captcha-header">

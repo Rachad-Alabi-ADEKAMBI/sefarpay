@@ -10,7 +10,7 @@ function sefarpay_shortcode()
 
     // masquer l'en-tête et le récapitulatif de la commande
     echo '<style>
-        #order_review_heading, #order_review {
+        #order_review_heading, #order_review, .woocommerce {
             display: none !important;
         }</style>';
 

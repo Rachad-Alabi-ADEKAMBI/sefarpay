@@ -6,7 +6,6 @@ add_action('wp_ajax_sefarpay_save_config', 'sefarpay_save_config');
 function sefarpay_save_config()
 {
     global $wpdb;
-
     $table = $wpdb->prefix . 'sefarpay_configuration';
 
     // Données sécurisées
@@ -29,12 +28,20 @@ function sefarpay_save_config()
         'created_at'             => current_time('mysql'),
     ];
 
-    // On met à jour la première ligne, ou on en insère une si elle n'existe pas
-    $existing = $wpdb->get_var("SELECT id FROM $table LIMIT 1");
+    // Vérifie s’il existe déjà une ligne
+    $existing_row = $wpdb->get_row("SELECT * FROM $table LIMIT 1", ARRAY_A);
 
-    if ($existing) {
-        $wpdb->update($table, $data, ['id' => $existing]);
+    if ($existing_row) {
+        $id = $existing_row['id'];
+
+        // Ne mettre à jour que si les données sont différentes
+        $diff = array_diff_assoc($data, $existing_row);
+        unset($diff['created_at']); // Ne pas comparer la date
+        if (!empty($diff)) {
+            $wpdb->update($table, $data, ['id' => $id]);
+        }
     } else {
+        // Aucune ligne existante, on insère
         $wpdb->insert($table, $data);
     }
 
