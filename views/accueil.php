@@ -38,10 +38,26 @@
       <!-- Hero Header Enhanced -->
       <div class="sefarpay-hero-header">
         <!-- État du plugin -->
-        <div class="sefarpay-plugin-status sefarpay-status-active">
-          <div class="sefarpay-status-indicator"></div>
-          <span>État du plugin: <?= $status ?></span>
-        </div>
+        <?php $status = trim($status, " \t\n\r\0\x0B\"'");
+        ?>
+
+        <?php if ($status == 'Actif') { ?>
+          <div class="sefarpay-plugin-status sefarpay-status-active">
+            <div class="sefarpay-status-indicator"></div>
+            <span>État du plugin: <?= $status ?></span>
+          </div>
+        <?php } else if ($status === 'Inactif') { ?>
+
+          <div class="sefarpay-plugin-status sefarpay-status-inactive">
+            <div class="sefarpay-status-indicator"></div>
+            <span>État du plugin: <?= $status ?></span>
+          </div>
+        <?php } else { ?>
+          <div class="sefarpay-plugin-status sefarpay-status-unknown">
+            <div class="sefarpay-status-indicator"></div>
+            <span>État du plugin: <?= $status ?></span>
+          </div>
+        <?php } ?>
 
         <div class="sefarpay-hero-content">
           <div class="sefarpay-plugin-logo">
@@ -63,7 +79,7 @@
             <div class="sefarpay-info-item">
               <div class="sefarpay-info-label">Fournisseur</div>
               <div class="sefarpay-info-value">
-                <a href="https://sefarpay.com" target="_blank">Sefar Universal</a>
+                <a href="https://sefarpay.com" target="_blank">Sefar Capital</a>
               </div>
             </div>
             <div class="sefarpay-info-item">
