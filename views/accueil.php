@@ -16,6 +16,576 @@
   <link
     rel="stylesheet"
     href="https://use.fontawesome.com/releases/v6.5.1/css/all.css" />
+
+</head>
+
+<body>
+  <div class="sefarpay-welcome-container">
+    <!-- Particules d'arrière-plan -->
+    <div class="sefarpay-particles">
+      <div class="sefarpay-particle"></div>
+      <div class="sefarpay-particle"></div>
+      <div class="sefarpay-particle"></div>
+      <div class="sefarpay-particle"></div>
+      <div class="sefarpay-particle"></div>
+      <div class="sefarpay-particle"></div>
+      <div class="sefarpay-particle"></div>
+      <div class="sefarpay-particle"></div>
+      <div class="sefarpay-particle"></div>
+    </div>
+
+    <div class="sefarpay-container">
+      <!-- Hero Header Enhanced -->
+      <div class="sefarpay-hero-header">
+        <!-- État du plugin -->
+        <div class="sefarpay-plugin-status sefarpay-status-active">
+          <div class="sefarpay-status-indicator"></div>
+          <span>État du plugin: <?= $status ?></span>
+        </div>
+
+        <div class="sefarpay-hero-content">
+          <div class="sefarpay-plugin-logo">
+            <i
+              class="fas fa-credit-card sefarpay-icon-fallback sefarpay-icon-credit-card"></i>
+          </div>
+          <h1 class="sefarpay-hero-title">
+            Bienvenue sur le plugin SefarPay
+          </h1>
+          <p class="sefarpay-hero-subtitle">
+            Solution de paiement sécurisée et innovante pour l'Algérie
+          </p>
+
+          <div class="sefarpay-plugin-info">
+            <div class="sefarpay-info-item">
+              <div class="sefarpay-info-label">Plugin</div>
+              <div class="sefarpay-info-value">SefarPay</div>
+            </div>
+            <div class="sefarpay-info-item">
+              <div class="sefarpay-info-label">Fournisseur</div>
+              <div class="sefarpay-info-value">
+                <a href="https://sefarpay.com" target="_blank">Sefar Universal</a>
+              </div>
+            </div>
+            <div class="sefarpay-info-item">
+              <div class="sefarpay-info-label">Version</div>
+              <div class="sefarpay-info-value">1.0.0</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Content Enhanced -->
+      <div class="sefarpay-main-content">
+        <!-- Description Section -->
+        <div class="sefarpay-section">
+          <div class="sefarpay-section-card">
+            <div
+              class="sefarpay-section-header"
+              onclick="sefarpayToggleSection(this)">
+              <div class="sefarpay-section-header-left">
+                <div class="sefarpay-section-icon">
+                  <i
+                    class="fas fa-info-circle sefarpay-icon-fallback sefarpay-icon-info"></i>
+                </div>
+                <div class="sefarpay-section-title-container">
+                  <h2 class="sefarpay-section-title">À propos du plugin</h2>
+                  <p class="sefarpay-section-subtitle">
+                    Découvrez les fonctionnalités et avantages de SefarPay
+                  </p>
+                </div>
+              </div>
+              <div class="sefarpay-toggle-icon">
+                <i
+                  class="fas fa-chevron-down sefarpay-icon-fallback sefarpay-icon-chevron-down"></i>
+              </div>
+            </div>
+            <div class="sefarpay-section-content">
+              <div class="sefarpay-section-inner">
+                <div class="sefarpay-description-text">
+                  <i
+                    class="fas fa-quote-left sefarpay-icon-fallback sefarpay-icon-quote"
+                    style="
+                        font-size: 2rem;
+                        color: var(--sefarpay-secondary-color);
+                        margin-bottom: 20px;
+                      "></i>
+                  <br />
+                  SefarPay est une solution de paiement révolutionnaire
+                  spécialement conçue pour répondre aux besoins du marché
+                  algérien. Ce plugin WordPress de nouvelle génération permet
+                  aux entreprises et commerçants algériens d'intégrer
+                  facilement un système de paiement ultra-sécurisé et
+                  parfaitement conforme aux réglementations locales.
+                  <br /><br />
+                  Avec SefarPay, transformez votre site web en une plateforme
+                  de commerce électronique moderne, offrez à vos clients une
+                  expérience de paiement fluide et intuitive, tout en
+                  bénéficiant d'outils de gestion avancés et d'analyses
+                  détaillées pour optimiser votre activité.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fonctionnement Section -->
+        <div class="sefarpay-section">
+          <div class="sefarpay-section-card">
+            <div
+              class="sefarpay-section-header"
+              onclick="sefarpayToggleSection(this)">
+              <div class="sefarpay-section-header-left">
+                <div class="sefarpay-section-icon">
+                  <i
+                    class="fas fa-cogs sefarpay-icon-fallback sefarpay-icon-cogs"></i>
+                </div>
+                <div class="sefarpay-section-title-container">
+                  <h2 class="sefarpay-section-title">Fonctionnement</h2>
+                  <p class="sefarpay-section-subtitle">
+                    Comment SefarPay transforme votre site en plateforme de
+                    paiement
+                  </p>
+                </div>
+              </div>
+              <div class="sefarpay-toggle-icon">
+                <i
+                  class="fas fa-chevron-down sefarpay-icon-fallback sefarpay-icon-chevron-down"></i>
+              </div>
+            </div>
+            <div class="sefarpay-section-content">
+              <div class="sefarpay-section-inner">
+                <div
+                  style="
+                      display: grid;
+                      grid-template-columns: repeat(
+                        auto-fit,
+                        minmax(300px, 1fr)
+                      );
+                      gap: 30px;
+                      margin-bottom: 30px;
+                    ">
+                  <div
+                    style="
+                        background: linear-gradient(
+                          135deg,
+                          rgba(0, 84, 166, 0.05),
+                          rgba(58, 167, 170, 0.05)
+                        );
+                        padding: 25px;
+                        border-radius: 15px;
+                        border-left: 4px solid var(--sefarpay-primary-color);
+                      ">
+                    <h4
+                      style="
+                          color: var(--sefarpay-primary-color);
+                          margin-bottom: 15px;
+                          font-size: 1.2rem;
+                        ">
+                      <i
+                        class="fas fa-plug sefarpay-icon-fallback sefarpay-icon-plug"
+                        style="margin-right: 10px"></i>Intégration Transparente
+                    </h4>
+                    <p>
+                      SefarPay s'intègre parfaitement à votre site WordPress
+                      existant sans modification majeure de votre
+                      infrastructure.
+                    </p>
+                  </div>
+                  <div
+                    style="
+                        background: linear-gradient(
+                          135deg,
+                          rgba(58, 167, 170, 0.05),
+                          rgba(0, 84, 166, 0.05)
+                        );
+                        padding: 25px;
+                        border-radius: 15px;
+                        border-left: 4px solid var(--sefarpay-secondary-color);
+                      ">
+                    <h4
+                      style="
+                          color: var(--sefarpay-secondary-color);
+                          margin-bottom: 15px;
+                          font-size: 1.2rem;
+                        ">
+                      <i
+                        class="fas fa-shield-alt sefarpay-icon-fallback sefarpay-icon-shield"
+                        style="margin-right: 10px"></i>Sécurité Maximale
+                    </h4>
+                    <p>
+                      Toutes les transactions sont cryptées et sécurisées
+                      selon les standards internationaux les plus stricts.
+                    </p>
+                  </div>
+                </div>
+                <p
+                  style="
+                      font-size: 1.1rem;
+                      line-height: 1.8;
+                      color: var(--sefarpay-text-light);
+                    ">
+                  Le système fonctionne comme une passerelle de paiement
+                  intelligente intégrée à votre site WordPress. Une fois
+                  configuré, le plugin permet à vos clients de régler leurs
+                  achats en utilisant les méthodes de paiement les plus
+                  populaires en Algérie. Le système traite les transactions de
+                  manière ultra-sécurisée, gère automatiquement les
+                  confirmations de paiement en temps réel, et vous fournit des
+                  outils de suivi complets avec des rapports détaillés et des
+                  analyses de performance pour optimiser votre business.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Configuration Section -->
+        <div class="sefarpay-section">
+          <div class="sefarpay-section-card">
+            <div
+              class="sefarpay-section-header"
+              onclick="sefarpayToggleSection(this)">
+              <div class="sefarpay-section-header-left">
+                <div class="sefarpay-section-icon">
+                  <i
+                    class="fas fa-list-ol sefarpay-icon-fallback sefarpay-icon-list"></i>
+                </div>
+                <div class="sefarpay-section-title-container">
+                  <h2 class="sefarpay-section-title">
+                    Enregistrement et Configuration
+                  </h2>
+                  <p class="sefarpay-section-subtitle">
+                    Guide étape par étape pour démarrer avec SefarPay
+                  </p>
+                </div>
+              </div>
+              <div class="sefarpay-toggle-icon">
+                <i
+                  class="fas fa-chevron-down sefarpay-icon-fallback sefarpay-icon-chevron-down"></i>
+              </div>
+            </div>
+            <div class="sefarpay-section-content">
+              <div class="sefarpay-section-inner">
+                <div class="sefarpay-steps-container">
+                  <div class="sefarpay-step-item">
+                    <div class="sefarpay-step-number">1</div>
+                    <div class="sefarpay-step-content">
+                      <div class="sefarpay-step-title">
+                        Création du compte marchand
+                      </div>
+                      <div class="sefarpay-step-description">
+                        Rendez-vous sur
+                        <a href="https://sefarpay.com" target="_blank">sefarpay.com</a>
+                        et créez votre compte marchand professionnel en
+                        fournissant les informations complètes de votre
+                        entreprise et tous les documents requis pour la
+                        validation (registre de commerce, statuts, etc.).
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="sefarpay-step-item">
+                    <div class="sefarpay-step-number">2</div>
+                    <div class="sefarpay-step-content">
+                      <div class="sefarpay-step-title">
+                        Validation et vérification du compte
+                      </div>
+                      <div class="sefarpay-step-description">
+                        Attendez la validation complète de votre compte par
+                        l'équipe SefarPay (généralement 24-48h). Vous recevrez
+                        vos clés API sécurisées (clé publique et clé privée)
+                        ainsi que votre identifiant marchand une fois votre
+                        compte définitivement approuvé.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="sefarpay-step-item">
+                    <div class="sefarpay-step-number">3</div>
+                    <div class="sefarpay-step-content">
+                      <div class="sefarpay-step-title">
+                        Installation du plugin WordPress
+                      </div>
+                      <div class="sefarpay-step-description">
+                        Téléchargez et installez le plugin SefarPay sur votre
+                        site WordPress via l'interface d'administration
+                        standard ou en uploadant directement le fichier ZIP
+                        depuis votre espace marchand.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="sefarpay-step-item">
+                    <div class="sefarpay-step-number">4</div>
+                    <div class="sefarpay-step-content">
+                      <div class="sefarpay-step-title">
+                        Configuration avancée des paramètres
+                      </div>
+                      <div class="sefarpay-step-description">
+                        Accédez aux paramètres du plugin, saisissez vos clés
+                        API sécurisées, configurez les méthodes de paiement
+                        acceptées, définissez vos préférences de devise, et
+                        personnalisez l'apparence selon votre charte
+                        graphique.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="sefarpay-step-item">
+                    <div class="sefarpay-step-number">5</div>
+                    <div class="sefarpay-step-content">
+                      <div class="sefarpay-step-title">
+                        Tests complets et mise en production
+                      </div>
+                      <div class="sefarpay-step-description">
+                        Effectuez des tests de paiement approfondis en mode
+                        sandbox pour valider toutes les fonctionnalités, puis
+                        activez le mode production une fois que tout
+                        fonctionne parfaitement selon vos attentes.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Important Section -->
+        <div class="sefarpay-section">
+          <div class="sefarpay-section-card">
+            <div
+              class="sefarpay-section-header"
+              onclick="sefarpayToggleSection(this)">
+              <div class="sefarpay-section-header-left">
+                <div class="sefarpay-section-icon">
+                  <i
+                    class="fas fa-exclamation-triangle sefarpay-icon-fallback sefarpay-icon-warning"></i>
+                </div>
+                <div class="sefarpay-section-title-container">
+                  <h2 class="sefarpay-section-title">Points Importants</h2>
+                  <p class="sefarpay-section-subtitle">
+                    Informations cruciales pour une utilisation optimale
+                  </p>
+                </div>
+              </div>
+              <div class="sefarpay-toggle-icon">
+                <i
+                  class="fas fa-chevron-down sefarpay-icon-fallback sefarpay-icon-chevron-down"></i>
+              </div>
+            </div>
+            <div class="sefarpay-section-content">
+              <div class="sefarpay-section-inner">
+                <ul class="sefarpay-important-list">
+                  <li class="sefarpay-important-item">
+                    <div class="sefarpay-important-icon">
+                      <i
+                        class="fas fa-shield-alt sefarpay-icon-fallback sefarpay-icon-shield"></i>
+                    </div>
+                    <div class="sefarpay-important-text">
+                      <strong>Sécurité maximale des clés API :</strong> Ne
+                      partagez jamais vos clés API privées avec des tiers et
+                      stockez-les de manière ultra-sécurisée. Utilisez
+                      impérativement HTTPS sur votre site pour protéger toutes
+                      les données de paiement et respecter les standards PCI
+                      DSS.
+                    </div>
+                  </li>
+                  <li class="sefarpay-important-item">
+                    <div class="sefarpay-important-icon">
+                      <i
+                        class="fas fa-sync-alt sefarpay-icon-fallback sefarpay-icon-sync"></i>
+                    </div>
+                    <div class="sefarpay-important-text">
+                      <strong>Sauvegarde et maintenance régulière :</strong>
+                      Effectuez des sauvegardes automatiques et régulières de
+                      votre site WordPress et de la base de données,
+                      particulièrement avant toute mise à jour du plugin ou
+                      modification importante de votre configuration.
+                    </div>
+                  </li>
+                  <li class="sefarpay-important-item">
+                    <div class="sefarpay-important-icon">
+                      <i
+                        class="fas fa-headset sefarpay-icon-fallback sefarpay-icon-headset"></i>
+                    </div>
+                    <div class="sefarpay-important-text">
+                      <strong>Support technique professionnel :</strong> En
+                      cas de problème technique ou de question, contactez
+                      immédiatement le support technique SefarPay via votre
+                      espace marchand sécurisé ou consultez la documentation
+                      complète pour résoudre rapidement les problèmes
+                      courants.
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Documentation Section -->
+        <div class="sefarpay-section">
+          <div class="sefarpay-section-card">
+            <div
+              class="sefarpay-section-header"
+              onclick="sefarpayToggleSection(this)">
+              <div class="sefarpay-section-header-left">
+                <div class="sefarpay-section-icon">
+                  <i
+                    class="fas fa-book sefarpay-icon-fallback sefarpay-icon-book"></i>
+                </div>
+                <div class="sefarpay-section-title-container">
+                  <h2 class="sefarpay-section-title">Documentation</h2>
+                  <p class="sefarpay-section-subtitle">
+                    Guides, tutoriels et ressources pour maîtriser SefarPay
+                  </p>
+                </div>
+              </div>
+              <div class="sefarpay-toggle-icon">
+                <i
+                  class="fas fa-chevron-down sefarpay-icon-fallback sefarpay-icon-chevron-down"></i>
+              </div>
+            </div>
+            <div class="sefarpay-section-content">
+              <div class="sefarpay-section-inner">
+                <div class="sefarpay-documentation-grid">
+                  <div class="sefarpay-doc-card">
+                    <div class="sefarpay-doc-icon">
+                      <i
+                        class="fas fa-rocket sefarpay-icon-fallback sefarpay-icon-rocket"></i>
+                    </div>
+                    <h4 class="sefarpay-doc-title">
+                      Guide de démarrage rapide
+                    </h4>
+                    <p class="sefarpay-doc-description">
+                      Configurez votre plugin SefarPay en quelques minutes
+                      avec notre guide étape par étape.
+                    </p>
+                    <a href="#" class="sefarpay-doc-link">
+                      <i
+                        class="fas fa-play sefarpay-icon-fallback sefarpay-icon-play"></i>
+                      Commencer
+                    </a>
+                  </div>
+
+                  <div class="sefarpay-doc-card">
+                    <div class="sefarpay-doc-icon">
+                      <i
+                        class="fas fa-code sefarpay-icon-fallback sefarpay-icon-code"></i>
+                    </div>
+                    <h4 class="sefarpay-doc-title">API et intégration</h4>
+                    <p class="sefarpay-doc-description">
+                      Documentation technique complète pour les développeurs
+                      et intégrations avancées.
+                    </p>
+                    <a href="#" class="sefarpay-doc-link">
+                      <i
+                        class="fas fa-terminal sefarpay-icon-fallback sefarpay-icon-terminal"></i>
+                      API Docs
+                    </a>
+                  </div>
+
+                  <div class="sefarpay-doc-card">
+                    <div class="sefarpay-doc-icon">
+                      <i
+                        class="fas fa-video sefarpay-icon-fallback sefarpay-icon-video"></i>
+                    </div>
+                    <h4 class="sefarpay-doc-title">Tutoriels vidéo</h4>
+                    <p class="sefarpay-doc-description">
+                      Apprenez visuellement avec nos tutoriels vidéo détaillés
+                      et nos démonstrations.
+                    </p>
+                    <a href="#" class="sefarpay-doc-link">
+                      <i
+                        class="fas fa-play-circle sefarpay-icon-fallback sefarpay-icon-play-circle"></i>
+                      Regarder
+                    </a>
+                  </div>
+
+                  <div class="sefarpay-doc-card">
+                    <div class="sefarpay-doc-icon">
+                      <i
+                        class="fas fa-question-circle sefarpay-icon-fallback sefarpay-icon-question"></i>
+                    </div>
+                    <h4 class="sefarpay-doc-title">FAQ et dépannage</h4>
+                    <p class="sefarpay-doc-description">
+                      Trouvez rapidement des réponses aux questions fréquentes
+                      et résolvez les problèmes.
+                    </p>
+                    <a href="#" class="sefarpay-doc-link">
+                      <i
+                        class="fas fa-search sefarpay-icon-fallback sefarpay-icon-search"></i>
+                      Explorer
+                    </a>
+                  </div>
+
+                  <div class="sefarpay-doc-card">
+                    <div class="sefarpay-doc-icon">
+                      <i
+                        class="fas fa-download sefarpay-icon-fallback sefarpay-icon-download"></i>
+                    </div>
+                    <h4 class="sefarpay-doc-title">Ressources et outils</h4>
+                    <p class="sefarpay-doc-description">
+                      Téléchargez des exemples de code, des templates et des
+                      outils utiles.
+                    </p>
+                    <a href="#" class="sefarpay-doc-link">
+                      <i
+                        class="fas fa-cloud-download-alt sefarpay-icon-fallback sefarpay-icon-cloud-download"></i>
+                      Télécharger
+                    </a>
+                  </div>
+
+                  <div class="sefarpay-doc-card">
+                    <div class="sefarpay-doc-icon">
+                      <i
+                        class="fas fa-users sefarpay-icon-fallback sefarpay-icon-users"></i>
+                    </div>
+                    <h4 class="sefarpay-doc-title">Communauté</h4>
+                    <p class="sefarpay-doc-description">
+                      Rejoignez notre communauté de développeurs et partagez
+                      vos expériences.
+                    </p>
+                    <a href="#" class="sefarpay-doc-link">
+                      <i
+                        class="fas fa-comments sefarpay-icon-fallback sefarpay-icon-comments"></i>
+                      Rejoindre
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Help Section Enhanced -->
+        <div class="sefarpay-help-section">
+          <h3 class="sefarpay-help-title">
+            <i
+              class="fas fa-graduation-cap sefarpay-icon-fallback sefarpay-icon-graduation"
+              style="
+                  margin-right: 15px;
+                  color: var(--sefarpay-secondary-color);
+                "></i>
+            Besoin d'aide supplémentaire ?
+          </h3>
+          <p class="sefarpay-help-description">
+            Accédez à notre centre de documentation complet avec des guides
+            détaillés, des tutoriels vidéo, des exemples de code pratiques, et
+            des solutions aux problèmes les plus fréquents. Notre équipe
+            d'experts est là pour vous accompagner.
+          </p>
+          <a href="#" class="sefarpay-help-button">
+            <i
+              class="fas fa-book-open sefarpay-icon-fallback sefarpay-icon-book-open"></i>
+            Documentation complète
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <style>
     /* CSS encapsulé pour éviter les conflits WordPress */
     .sefarpay-welcome-container {
@@ -1223,574 +1793,6 @@
       }
     }
   </style>
-</head>
-
-<body>
-  <div class="sefarpay-welcome-container">
-    <!-- Particules d'arrière-plan -->
-    <div class="sefarpay-particles">
-      <div class="sefarpay-particle"></div>
-      <div class="sefarpay-particle"></div>
-      <div class="sefarpay-particle"></div>
-      <div class="sefarpay-particle"></div>
-      <div class="sefarpay-particle"></div>
-      <div class="sefarpay-particle"></div>
-      <div class="sefarpay-particle"></div>
-      <div class="sefarpay-particle"></div>
-      <div class="sefarpay-particle"></div>
-    </div>
-
-    <div class="sefarpay-container">
-      <!-- Hero Header Enhanced -->
-      <div class="sefarpay-hero-header">
-        <!-- État du plugin -->
-        <div class="sefarpay-plugin-status sefarpay-status-active">
-          <div class="sefarpay-status-indicator"></div>
-          <span>État du plugin: <?= $status ?></span>
-        </div>
-
-        <div class="sefarpay-hero-content">
-          <div class="sefarpay-plugin-logo">
-            <i
-              class="fas fa-credit-card sefarpay-icon-fallback sefarpay-icon-credit-card"></i>
-          </div>
-          <h1 class="sefarpay-hero-title">
-            Bienvenue sur le plugin SefarPay
-          </h1>
-          <p class="sefarpay-hero-subtitle">
-            Solution de paiement sécurisée et innovante pour l'Algérie
-          </p>
-
-          <div class="sefarpay-plugin-info">
-            <div class="sefarpay-info-item">
-              <div class="sefarpay-info-label">Plugin</div>
-              <div class="sefarpay-info-value">SefarPay</div>
-            </div>
-            <div class="sefarpay-info-item">
-              <div class="sefarpay-info-label">Fournisseur</div>
-              <div class="sefarpay-info-value">
-                <a href="https://sefarpay.com" target="_blank">Sefar Universal</a>
-              </div>
-            </div>
-            <div class="sefarpay-info-item">
-              <div class="sefarpay-info-label">Version</div>
-              <div class="sefarpay-info-value">1.0.0</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Main Content Enhanced -->
-      <div class="sefarpay-main-content">
-        <!-- Description Section -->
-        <div class="sefarpay-section">
-          <div class="sefarpay-section-card">
-            <div
-              class="sefarpay-section-header"
-              onclick="sefarpayToggleSection(this)">
-              <div class="sefarpay-section-header-left">
-                <div class="sefarpay-section-icon">
-                  <i
-                    class="fas fa-info-circle sefarpay-icon-fallback sefarpay-icon-info"></i>
-                </div>
-                <div class="sefarpay-section-title-container">
-                  <h2 class="sefarpay-section-title">À propos du plugin</h2>
-                  <p class="sefarpay-section-subtitle">
-                    Découvrez les fonctionnalités et avantages de SefarPay
-                  </p>
-                </div>
-              </div>
-              <div class="sefarpay-toggle-icon">
-                <i
-                  class="fas fa-chevron-down sefarpay-icon-fallback sefarpay-icon-chevron-down"></i>
-              </div>
-            </div>
-            <div class="sefarpay-section-content">
-              <div class="sefarpay-section-inner">
-                <div class="sefarpay-description-text">
-                  <i
-                    class="fas fa-quote-left sefarpay-icon-fallback sefarpay-icon-quote"
-                    style="
-                        font-size: 2rem;
-                        color: var(--sefarpay-secondary-color);
-                        margin-bottom: 20px;
-                      "></i>
-                  <br />
-                  SefarPay est une solution de paiement révolutionnaire
-                  spécialement conçue pour répondre aux besoins du marché
-                  algérien. Ce plugin WordPress de nouvelle génération permet
-                  aux entreprises et commerçants algériens d'intégrer
-                  facilement un système de paiement ultra-sécurisé et
-                  parfaitement conforme aux réglementations locales.
-                  <br /><br />
-                  Avec SefarPay, transformez votre site web en une plateforme
-                  de commerce électronique moderne, offrez à vos clients une
-                  expérience de paiement fluide et intuitive, tout en
-                  bénéficiant d'outils de gestion avancés et d'analyses
-                  détaillées pour optimiser votre activité.
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Fonctionnement Section -->
-        <div class="sefarpay-section">
-          <div class="sefarpay-section-card">
-            <div
-              class="sefarpay-section-header"
-              onclick="sefarpayToggleSection(this)">
-              <div class="sefarpay-section-header-left">
-                <div class="sefarpay-section-icon">
-                  <i
-                    class="fas fa-cogs sefarpay-icon-fallback sefarpay-icon-cogs"></i>
-                </div>
-                <div class="sefarpay-section-title-container">
-                  <h2 class="sefarpay-section-title">Fonctionnement</h2>
-                  <p class="sefarpay-section-subtitle">
-                    Comment SefarPay transforme votre site en plateforme de
-                    paiement
-                  </p>
-                </div>
-              </div>
-              <div class="sefarpay-toggle-icon">
-                <i
-                  class="fas fa-chevron-down sefarpay-icon-fallback sefarpay-icon-chevron-down"></i>
-              </div>
-            </div>
-            <div class="sefarpay-section-content">
-              <div class="sefarpay-section-inner">
-                <div
-                  style="
-                      display: grid;
-                      grid-template-columns: repeat(
-                        auto-fit,
-                        minmax(300px, 1fr)
-                      );
-                      gap: 30px;
-                      margin-bottom: 30px;
-                    ">
-                  <div
-                    style="
-                        background: linear-gradient(
-                          135deg,
-                          rgba(0, 84, 166, 0.05),
-                          rgba(58, 167, 170, 0.05)
-                        );
-                        padding: 25px;
-                        border-radius: 15px;
-                        border-left: 4px solid var(--sefarpay-primary-color);
-                      ">
-                    <h4
-                      style="
-                          color: var(--sefarpay-primary-color);
-                          margin-bottom: 15px;
-                          font-size: 1.2rem;
-                        ">
-                      <i
-                        class="fas fa-plug sefarpay-icon-fallback sefarpay-icon-plug"
-                        style="margin-right: 10px"></i>Intégration Transparente
-                    </h4>
-                    <p>
-                      SefarPay s'intègre parfaitement à votre site WordPress
-                      existant sans modification majeure de votre
-                      infrastructure.
-                    </p>
-                  </div>
-                  <div
-                    style="
-                        background: linear-gradient(
-                          135deg,
-                          rgba(58, 167, 170, 0.05),
-                          rgba(0, 84, 166, 0.05)
-                        );
-                        padding: 25px;
-                        border-radius: 15px;
-                        border-left: 4px solid var(--sefarpay-secondary-color);
-                      ">
-                    <h4
-                      style="
-                          color: var(--sefarpay-secondary-color);
-                          margin-bottom: 15px;
-                          font-size: 1.2rem;
-                        ">
-                      <i
-                        class="fas fa-shield-alt sefarpay-icon-fallback sefarpay-icon-shield"
-                        style="margin-right: 10px"></i>Sécurité Maximale
-                    </h4>
-                    <p>
-                      Toutes les transactions sont cryptées et sécurisées
-                      selon les standards internationaux les plus stricts.
-                    </p>
-                  </div>
-                </div>
-                <p
-                  style="
-                      font-size: 1.1rem;
-                      line-height: 1.8;
-                      color: var(--sefarpay-text-light);
-                    ">
-                  Le système fonctionne comme une passerelle de paiement
-                  intelligente intégrée à votre site WordPress. Une fois
-                  configuré, le plugin permet à vos clients de régler leurs
-                  achats en utilisant les méthodes de paiement les plus
-                  populaires en Algérie. Le système traite les transactions de
-                  manière ultra-sécurisée, gère automatiquement les
-                  confirmations de paiement en temps réel, et vous fournit des
-                  outils de suivi complets avec des rapports détaillés et des
-                  analyses de performance pour optimiser votre business.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Configuration Section -->
-        <div class="sefarpay-section">
-          <div class="sefarpay-section-card">
-            <div
-              class="sefarpay-section-header"
-              onclick="sefarpayToggleSection(this)">
-              <div class="sefarpay-section-header-left">
-                <div class="sefarpay-section-icon">
-                  <i
-                    class="fas fa-list-ol sefarpay-icon-fallback sefarpay-icon-list"></i>
-                </div>
-                <div class="sefarpay-section-title-container">
-                  <h2 class="sefarpay-section-title">
-                    Enregistrement et Configuration
-                  </h2>
-                  <p class="sefarpay-section-subtitle">
-                    Guide étape par étape pour démarrer avec SefarPay
-                  </p>
-                </div>
-              </div>
-              <div class="sefarpay-toggle-icon">
-                <i
-                  class="fas fa-chevron-down sefarpay-icon-fallback sefarpay-icon-chevron-down"></i>
-              </div>
-            </div>
-            <div class="sefarpay-section-content">
-              <div class="sefarpay-section-inner">
-                <div class="sefarpay-steps-container">
-                  <div class="sefarpay-step-item">
-                    <div class="sefarpay-step-number">1</div>
-                    <div class="sefarpay-step-content">
-                      <div class="sefarpay-step-title">
-                        Création du compte marchand
-                      </div>
-                      <div class="sefarpay-step-description">
-                        Rendez-vous sur
-                        <a href="https://sefarpay.com" target="_blank">sefarpay.com</a>
-                        et créez votre compte marchand professionnel en
-                        fournissant les informations complètes de votre
-                        entreprise et tous les documents requis pour la
-                        validation (registre de commerce, statuts, etc.).
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="sefarpay-step-item">
-                    <div class="sefarpay-step-number">2</div>
-                    <div class="sefarpay-step-content">
-                      <div class="sefarpay-step-title">
-                        Validation et vérification du compte
-                      </div>
-                      <div class="sefarpay-step-description">
-                        Attendez la validation complète de votre compte par
-                        l'équipe SefarPay (généralement 24-48h). Vous recevrez
-                        vos clés API sécurisées (clé publique et clé privée)
-                        ainsi que votre identifiant marchand une fois votre
-                        compte définitivement approuvé.
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="sefarpay-step-item">
-                    <div class="sefarpay-step-number">3</div>
-                    <div class="sefarpay-step-content">
-                      <div class="sefarpay-step-title">
-                        Installation du plugin WordPress
-                      </div>
-                      <div class="sefarpay-step-description">
-                        Téléchargez et installez le plugin SefarPay sur votre
-                        site WordPress via l'interface d'administration
-                        standard ou en uploadant directement le fichier ZIP
-                        depuis votre espace marchand.
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="sefarpay-step-item">
-                    <div class="sefarpay-step-number">4</div>
-                    <div class="sefarpay-step-content">
-                      <div class="sefarpay-step-title">
-                        Configuration avancée des paramètres
-                      </div>
-                      <div class="sefarpay-step-description">
-                        Accédez aux paramètres du plugin, saisissez vos clés
-                        API sécurisées, configurez les méthodes de paiement
-                        acceptées, définissez vos préférences de devise, et
-                        personnalisez l'apparence selon votre charte
-                        graphique.
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="sefarpay-step-item">
-                    <div class="sefarpay-step-number">5</div>
-                    <div class="sefarpay-step-content">
-                      <div class="sefarpay-step-title">
-                        Tests complets et mise en production
-                      </div>
-                      <div class="sefarpay-step-description">
-                        Effectuez des tests de paiement approfondis en mode
-                        sandbox pour valider toutes les fonctionnalités, puis
-                        activez le mode production une fois que tout
-                        fonctionne parfaitement selon vos attentes.
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Important Section -->
-        <div class="sefarpay-section">
-          <div class="sefarpay-section-card">
-            <div
-              class="sefarpay-section-header"
-              onclick="sefarpayToggleSection(this)">
-              <div class="sefarpay-section-header-left">
-                <div class="sefarpay-section-icon">
-                  <i
-                    class="fas fa-exclamation-triangle sefarpay-icon-fallback sefarpay-icon-warning"></i>
-                </div>
-                <div class="sefarpay-section-title-container">
-                  <h2 class="sefarpay-section-title">Points Importants</h2>
-                  <p class="sefarpay-section-subtitle">
-                    Informations cruciales pour une utilisation optimale
-                  </p>
-                </div>
-              </div>
-              <div class="sefarpay-toggle-icon">
-                <i
-                  class="fas fa-chevron-down sefarpay-icon-fallback sefarpay-icon-chevron-down"></i>
-              </div>
-            </div>
-            <div class="sefarpay-section-content">
-              <div class="sefarpay-section-inner">
-                <ul class="sefarpay-important-list">
-                  <li class="sefarpay-important-item">
-                    <div class="sefarpay-important-icon">
-                      <i
-                        class="fas fa-shield-alt sefarpay-icon-fallback sefarpay-icon-shield"></i>
-                    </div>
-                    <div class="sefarpay-important-text">
-                      <strong>Sécurité maximale des clés API :</strong> Ne
-                      partagez jamais vos clés API privées avec des tiers et
-                      stockez-les de manière ultra-sécurisée. Utilisez
-                      impérativement HTTPS sur votre site pour protéger toutes
-                      les données de paiement et respecter les standards PCI
-                      DSS.
-                    </div>
-                  </li>
-                  <li class="sefarpay-important-item">
-                    <div class="sefarpay-important-icon">
-                      <i
-                        class="fas fa-sync-alt sefarpay-icon-fallback sefarpay-icon-sync"></i>
-                    </div>
-                    <div class="sefarpay-important-text">
-                      <strong>Sauvegarde et maintenance régulière :</strong>
-                      Effectuez des sauvegardes automatiques et régulières de
-                      votre site WordPress et de la base de données,
-                      particulièrement avant toute mise à jour du plugin ou
-                      modification importante de votre configuration.
-                    </div>
-                  </li>
-                  <li class="sefarpay-important-item">
-                    <div class="sefarpay-important-icon">
-                      <i
-                        class="fas fa-headset sefarpay-icon-fallback sefarpay-icon-headset"></i>
-                    </div>
-                    <div class="sefarpay-important-text">
-                      <strong>Support technique professionnel :</strong> En
-                      cas de problème technique ou de question, contactez
-                      immédiatement le support technique SefarPay via votre
-                      espace marchand sécurisé ou consultez la documentation
-                      complète pour résoudre rapidement les problèmes
-                      courants.
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Documentation Section -->
-        <div class="sefarpay-section">
-          <div class="sefarpay-section-card">
-            <div
-              class="sefarpay-section-header"
-              onclick="sefarpayToggleSection(this)">
-              <div class="sefarpay-section-header-left">
-                <div class="sefarpay-section-icon">
-                  <i
-                    class="fas fa-book sefarpay-icon-fallback sefarpay-icon-book"></i>
-                </div>
-                <div class="sefarpay-section-title-container">
-                  <h2 class="sefarpay-section-title">Documentation</h2>
-                  <p class="sefarpay-section-subtitle">
-                    Guides, tutoriels et ressources pour maîtriser SefarPay
-                  </p>
-                </div>
-              </div>
-              <div class="sefarpay-toggle-icon">
-                <i
-                  class="fas fa-chevron-down sefarpay-icon-fallback sefarpay-icon-chevron-down"></i>
-              </div>
-            </div>
-            <div class="sefarpay-section-content">
-              <div class="sefarpay-section-inner">
-                <div class="sefarpay-documentation-grid">
-                  <div class="sefarpay-doc-card">
-                    <div class="sefarpay-doc-icon">
-                      <i
-                        class="fas fa-rocket sefarpay-icon-fallback sefarpay-icon-rocket"></i>
-                    </div>
-                    <h4 class="sefarpay-doc-title">
-                      Guide de démarrage rapide
-                    </h4>
-                    <p class="sefarpay-doc-description">
-                      Configurez votre plugin SefarPay en quelques minutes
-                      avec notre guide étape par étape.
-                    </p>
-                    <a href="#" class="sefarpay-doc-link">
-                      <i
-                        class="fas fa-play sefarpay-icon-fallback sefarpay-icon-play"></i>
-                      Commencer
-                    </a>
-                  </div>
-
-                  <div class="sefarpay-doc-card">
-                    <div class="sefarpay-doc-icon">
-                      <i
-                        class="fas fa-code sefarpay-icon-fallback sefarpay-icon-code"></i>
-                    </div>
-                    <h4 class="sefarpay-doc-title">API et intégration</h4>
-                    <p class="sefarpay-doc-description">
-                      Documentation technique complète pour les développeurs
-                      et intégrations avancées.
-                    </p>
-                    <a href="#" class="sefarpay-doc-link">
-                      <i
-                        class="fas fa-terminal sefarpay-icon-fallback sefarpay-icon-terminal"></i>
-                      API Docs
-                    </a>
-                  </div>
-
-                  <div class="sefarpay-doc-card">
-                    <div class="sefarpay-doc-icon">
-                      <i
-                        class="fas fa-video sefarpay-icon-fallback sefarpay-icon-video"></i>
-                    </div>
-                    <h4 class="sefarpay-doc-title">Tutoriels vidéo</h4>
-                    <p class="sefarpay-doc-description">
-                      Apprenez visuellement avec nos tutoriels vidéo détaillés
-                      et nos démonstrations.
-                    </p>
-                    <a href="#" class="sefarpay-doc-link">
-                      <i
-                        class="fas fa-play-circle sefarpay-icon-fallback sefarpay-icon-play-circle"></i>
-                      Regarder
-                    </a>
-                  </div>
-
-                  <div class="sefarpay-doc-card">
-                    <div class="sefarpay-doc-icon">
-                      <i
-                        class="fas fa-question-circle sefarpay-icon-fallback sefarpay-icon-question"></i>
-                    </div>
-                    <h4 class="sefarpay-doc-title">FAQ et dépannage</h4>
-                    <p class="sefarpay-doc-description">
-                      Trouvez rapidement des réponses aux questions fréquentes
-                      et résolvez les problèmes.
-                    </p>
-                    <a href="#" class="sefarpay-doc-link">
-                      <i
-                        class="fas fa-search sefarpay-icon-fallback sefarpay-icon-search"></i>
-                      Explorer
-                    </a>
-                  </div>
-
-                  <div class="sefarpay-doc-card">
-                    <div class="sefarpay-doc-icon">
-                      <i
-                        class="fas fa-download sefarpay-icon-fallback sefarpay-icon-download"></i>
-                    </div>
-                    <h4 class="sefarpay-doc-title">Ressources et outils</h4>
-                    <p class="sefarpay-doc-description">
-                      Téléchargez des exemples de code, des templates et des
-                      outils utiles.
-                    </p>
-                    <a href="#" class="sefarpay-doc-link">
-                      <i
-                        class="fas fa-cloud-download-alt sefarpay-icon-fallback sefarpay-icon-cloud-download"></i>
-                      Télécharger
-                    </a>
-                  </div>
-
-                  <div class="sefarpay-doc-card">
-                    <div class="sefarpay-doc-icon">
-                      <i
-                        class="fas fa-users sefarpay-icon-fallback sefarpay-icon-users"></i>
-                    </div>
-                    <h4 class="sefarpay-doc-title">Communauté</h4>
-                    <p class="sefarpay-doc-description">
-                      Rejoignez notre communauté de développeurs et partagez
-                      vos expériences.
-                    </p>
-                    <a href="#" class="sefarpay-doc-link">
-                      <i
-                        class="fas fa-comments sefarpay-icon-fallback sefarpay-icon-comments"></i>
-                      Rejoindre
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Help Section Enhanced -->
-        <div class="sefarpay-help-section">
-          <h3 class="sefarpay-help-title">
-            <i
-              class="fas fa-graduation-cap sefarpay-icon-fallback sefarpay-icon-graduation"
-              style="
-                  margin-right: 15px;
-                  color: var(--sefarpay-secondary-color);
-                "></i>
-            Besoin d'aide supplémentaire ?
-          </h3>
-          <p class="sefarpay-help-description">
-            Accédez à notre centre de documentation complet avec des guides
-            détaillés, des tutoriels vidéo, des exemples de code pratiques, et
-            des solutions aux problèmes les plus fréquents. Notre équipe
-            d'experts est là pour vous accompagner.
-          </p>
-          <a href="#" class="sefarpay-help-button">
-            <i
-              class="fas fa-book-open sefarpay-icon-fallback sefarpay-icon-book-open"></i>
-            Documentation complète
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <script>
     // Fonction pour basculer l'état des sections

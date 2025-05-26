@@ -31,6 +31,7 @@ function sefarpay_create_tables()
         numero_registre VARCHAR(100),
         registre_document_url TEXT,
         statut VARCHAR(50) DEFAULT 'en_attente',
+        sefarpay_id VARCHAR(50) NULL,
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     ) $charset_collate;";
     dbDelta($sql1);
