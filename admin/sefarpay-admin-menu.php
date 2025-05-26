@@ -46,10 +46,39 @@ add_action('admin_menu', 'sefarpay_add_admin_menu');
 
 function sefarpay_render_accueil_page()
 {
-    echo '<div class="wrap">';
-    sefarpay_render_html_view('accueil.html');
-    echo '</div>';
+    global $wpdb;
+
+    $validation_url = 'https://localhost/sefarpay_management/wp-json/sefarpay_management/v1/account_status';
+
+    // Récupérer le sefarpay_id depuis la table sefarpay_enregistrements
+    $table_enregistrements = $wpdb->prefix . 'sefarpay_enregistrements';
+    $sefarpay_id = $wpdb->get_var("SELECT sefarpay_id FROM $table_enregistrements LIMIT 1");
+
+    $status = 'inconnu';
+
+    if ($sefarpay_id) {
+        // Construire l’URL avec paramètre GET
+        $request_url = add_query_arg('sefarpay_id', urlencode($sefarpay_id), $validation_url);
+
+        // Requête GET
+        $response = wp_remote_get($request_url);
+
+        if (!is_wp_error($response)) {
+            $body = wp_remote_retrieve_body($response);
+            $data = json_decode($body, true);
+            if (isset($data['status'])) {
+                $status = $data['status'];
+            }
+        } else {
+            $status = 'erreur';
+        }
+    }
+
+    // Afficher la vue accueil.php avec le statut
+    sefarpay_render_html_view('accueil.php', ['status' => $status]);
 }
+
+
 
 function sefarpay_render_configuration_page()
 {
