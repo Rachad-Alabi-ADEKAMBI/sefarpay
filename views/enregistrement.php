@@ -8,6 +8,583 @@
   <link
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+</head>
+
+<body>
+  <div class="container">
+    <div class="form-header">
+      <h1>Formulaire d'Enregistrement</h1>
+      <p>
+        Complétez le formulaire ci-dessous pour vous enregistrer. Tous les
+        champs marqués d'un astérisque (*) sont obligatoires.
+      </p>
+    </div>
+
+    <div class="form-content">
+      <form id="registrationForm" enctype="multipart/form-data">
+        <!-- Informations personnelles -->
+        <div class="form-section">
+          <h2 class="section-title">
+            <i class="fas fa-user"></i>Informations personnelles
+          </h2>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="civilite" class="required">Civilité</label>
+              <div class="input-wrapper">
+                <select id="civilite" name="civilite" required>
+                  <option value="">Sélectionnez</option>
+                  <option value="Mr">Mr</option>
+                  <option value="Mme">Mme</option>
+                  <option value="Mlle">Mlle</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="nom" class="required">Nom</label>
+              <div class="input-wrapper">
+                <input
+                  type="text"
+                  id="nom"
+                  name="nom"
+                  placeholder="Votre nom"
+                  value="<?php echo esc_attr($enregistrement['nom'] ?? ''); ?>"
+                  required />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="prenom" class="required">Prénom</label>
+              <div class="input-wrapper">
+                <input
+                  type="text"
+                  id="prenom"
+                  name="prenom"
+                  placeholder="Votre prénom"
+                  value="<?php echo esc_attr($enregistrement['prenom'] ?? ''); ?>"
+                  required />
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="email" class="required">Email personnel</label>
+              <div class="input-wrapper">
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="votre.email@exemple.com"
+                  value="<?php echo esc_attr($enregistrement['email'] ?? ''); ?>"
+                  required />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="telephone" class="required">Numéro de téléphone</label>
+              <div class="input-wrapper">
+                <input
+                  type="tel"
+                  id="telephone"
+                  name="telephone"
+                  placeholder="Ex: 0123456789"
+                  value="<?php echo esc_attr($enregistrement['telephone'] ?? ''); ?>"
+                  required />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Entité juridique -->
+        <div class="form-section">
+          <h2 class="section-title">
+            <i class="fas fa-building"></i>Entité juridique
+          </h2>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="raison_sociale" class="required">Raison sociale</label>
+              <div class="input-wrapper">
+                <input
+                  type="text"
+                  id="raison_sociale"
+                  name="raison_sociale"
+                  placeholder="Nom de votre entreprise"
+                  value="<?php echo esc_attr($enregistrement['raison_sociale'] ?? ''); ?>"
+                  required />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="domaine" class="required">Domaine du site web</label>
+              <div class="input-wrapper">
+                <input
+                  type="text"
+                  id="domaine"
+                  name="domaine"
+                  placeholder="exemple.com"
+                  value="<?php echo esc_attr($enregistrement['domaine'] ?? ''); ?>"
+                  required />
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="adresse" class="required">Adresse complète</label>
+              <div class="input-wrapper textarea-wrapper">
+                <textarea
+                  id="adresse"
+                  name="adresse"
+                  placeholder="Adresse complète de votre entreprise"
+                  value="<?php echo esc_attr($enregistrement['adresse'] ?? ''); ?>"
+                  required></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="wilaya" class="required">Wilaya</label>
+              <div class="input-wrapper">
+                <select id="wilaya" name="wilaya" required>
+                  <option value="">Sélectionnez</option>
+                  <option value="Alger">Alger</option>
+                  <option value="Oran">Oran</option>
+                  <option value="Constantine">Constantine</option>
+                  <option value="Annaba">Annaba</option>
+                  <option value="Blida">Blida</option>
+                  <option value="Batna">Batna</option>
+                  <option value="Setif">Setif</option>
+                  <option value="Tlemcen">Tlemcen</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="commune" class="required">Commune</label>
+              <div class="input-wrapper">
+                <select id="commune" name="commune" required>
+                  <option value="">Sélectionnez d'abord une wilaya</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="date_debut" class="required">Date de début d'activité</label>
+              <div class="input-wrapper">
+                <input
+                  type="date"
+                  id="date_debut"
+                  name="date_debut"
+                  required />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Activité -->
+        <div class="form-section">
+          <h2 class="section-title">
+            <i class="fas fa-briefcase"></i>Activité
+          </h2>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="type_activite" class="required">Type d'activité</label>
+              <div class="input-wrapper">
+                <select id="type_activite" name="type_activite" required>
+                  <option value="">Sélectionnez</option>
+                  <option value="Vente de biens">Vente de biens</option>
+                  <option value="Prestation de services">
+                    Prestation de services
+                  </option>
+                  <option value="Service public">Service public</option>
+                  <option value="Informatique">Informatique</option>
+                  <option value="Organisme socio-professionnel">
+                    Organisme socio-professionnel
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="forme_juridique" class="required">Forme juridique</label>
+              <div class="input-wrapper">
+                <select id="forme_juridique" name="forme_juridique" required>
+                  <option value="">Sélectionnez</option>
+                  <option value="Société Anonyme">Société Anonyme</option>
+                  <option value="SPA">SPA</option>
+                  <option value="SCS">SCS</option>
+                  <option value="SCA">SCA</option>
+                  <option value="SARL">SARL</option>
+                  <option value="SNC">SNC</option>
+                  <option value="Entreprise individuelle">
+                    Entreprise individuelle
+                  </option>
+                  <option value="EURL">EURL</option>
+                  <option value="START-UP">START-UP</option>
+                  <option value="EPIC">EPIC</option>
+                  <option value="Autres">Autres</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Coordonnées bancaires -->
+        <div class="form-section">
+          <h2 class="section-title">
+            <i class="fas fa-university"></i>Coordonnées bancaires
+          </h2>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="banque" class="required">Banque domiciliataire</label>
+              <div class="input-wrapper">
+                <select id="banque" name="banque" required>
+                  <option value="">Sélectionnez</option>
+                  <option value="BNA">BNA</option>
+                  <option value="BEA">BEA</option>
+                  <option value="CPA">CPA</option>
+                  <option value="BDL">BDL</option>
+                  <option value="BADR">BADR</option>
+                  <option value="CNEP">CNEP</option>
+                  <option value="Al Baraka">Al Baraka</option>
+                  <option value="Société Générale">Société Générale</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="email_societe" class="required">Email de l'entité</label>
+              <div class="input-wrapper">
+                <input
+                  type="email"
+                  id="email_societe"
+                  name="email_societe"
+                  placeholder="contact@votre-entreprise.com"
+                  value="<?php echo esc_attr($enregistrement['email_societe'] ?? ''); ?>"
+                  required />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="telephone_societe" class="required">Téléphone de l'entité</label>
+              <div class="input-wrapper">
+                <input
+                  type="tel"
+                  id="telephone_societe"
+                  name="telephone_societe"
+                  placeholder="Ex: 0123456789"
+                  value="<?php echo esc_attr($enregistrement['telephone_societe'] ?? ''); ?>"
+                  required />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Registre de commerce -->
+        <div class="form-section">
+          <h2 class="section-title">
+            <i class="fas fa-file-contract"></i>Registre de commerce
+          </h2>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="numero_registre" class="required">Numéro du registre</label>
+              <div class="input-wrapper">
+                <input
+                  type="text"
+                  id="numero_registre"
+                  name="numero_registre"
+                  placeholder="Numéro du registre de commerce"
+                  value="<?php echo esc_attr($enregistrement['numero_registre'] ?? ''); ?>"
+                  required />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="document" class="required">Document à téléverser</label>
+              <div class="file-upload">
+                <label for="document" class="file-upload-label">
+                  <i class="fas fa-cloud-upload-alt"></i>
+                  Choisir un fichier
+                </label>
+                <input
+                  type="file"
+                  id="document"
+                  name="document"
+                  accept=".pdf,.png,.jpg,.jpeg"
+                  required />
+              </div>
+              <div id="file-name" class="file-name">
+                <i class="fas fa-file-alt"></i>
+                <span>Aucun fichier sélectionné</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="submit-container">
+          <button type="submit" class="submit-btn">
+            <i class="fas fa-paper-plane"></i> Soumettre
+          </button>
+          <div id="message" class="message"></div>
+        </div>
+
+        <input
+          type="hidden"
+          name="action"
+          value="sefarpay_save_registration" />
+
+        <script>
+          document
+            .getElementById("registrationForm")
+            .addEventListener("submit", async function(e) {
+              e.preventDefault();
+
+              const form = document.getElementById("registrationForm");
+              const formData = new FormData(form);
+              const messageBox = document.getElementById("message");
+
+              messageBox.innerHTML = "⏳ Envoi en cours...";
+
+              const response = await fetch(ajaxurl, {
+                method: "POST",
+                body: formData,
+              });
+
+              const result = await response.json();
+
+              if (result.success) {
+                messageBox.innerHTML = `<p style="color:green">✅ ${result.data}</p>`;
+                form.reset();
+              } else {
+                messageBox.innerHTML = `<p style="color:red">❌ ${result.data}</p>`;
+              }
+            });
+        </script>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Afficher le nom du fichier sélectionné
+    document
+      .getElementById("document")
+      .addEventListener("change", function(e) {
+        const fileNameSpan = document.querySelector("#file-name span");
+        const fileIcon = document.querySelector("#file-name i");
+
+        if (e.target.files[0]) {
+          const fileName = e.target.files[0].name;
+          fileNameSpan.textContent = fileName;
+
+          // Changer l'icône en fonction du type de fichier
+          const fileExt = fileName.split(".").pop().toLowerCase();
+          if (fileExt === "pdf") {
+            fileIcon.className = "fas fa-file-pdf";
+          } else if (["jpg", "jpeg", "png"].includes(fileExt)) {
+            fileIcon.className = "fas fa-file-image";
+          } else {
+            fileIcon.className = "fas fa-file-alt";
+          }
+        } else {
+          fileNameSpan.textContent = "Aucun fichier sélectionné";
+          fileIcon.className = "fas fa-file-alt";
+        }
+      });
+
+    // Simuler les communes en fonction de la wilaya sélectionnée
+    document.getElementById("wilaya").addEventListener("change", function() {
+      const wilaya = this.value;
+      const communeSelect = document.getElementById("commune");
+
+      // Vider le select des communes
+      communeSelect.innerHTML = "";
+
+      if (!wilaya) {
+        communeSelect.innerHTML =
+          '<option value="">Sélectionnez d\'abord une wilaya</option>';
+        return;
+      }
+
+      // Simuler les communes pour chaque wilaya
+      let communes = [];
+
+      if (wilaya === "Alger") {
+        communes = [
+          "Alger Centre",
+          "Bab El Oued",
+          "Bir Mourad Raïs",
+          "Hussein Dey",
+          "El Biar",
+          "Kouba",
+          "Bouzareah",
+          "Chéraga",
+        ];
+      } else if (wilaya === "Oran") {
+        communes = [
+          "Oran",
+          "Bir El Djir",
+          "Es Senia",
+          "Arzew",
+          "Bethioua",
+          "Mers El Kébir",
+          "Aïn El Turk",
+        ];
+      } else if (wilaya === "Constantine") {
+        communes = [
+          "Constantine",
+          "El Khroub",
+          "Hamma Bouziane",
+          "Didouche Mourad",
+          "Aïn Smara",
+          "Zighoud Youcef",
+        ];
+      } else if (wilaya === "Annaba") {
+        communes = [
+          "Annaba",
+          "El Bouni",
+          "El Hadjar",
+          "Sidi Amar",
+          "Berrahal",
+        ];
+      } else if (wilaya === "Blida") {
+        communes = ["Blida", "Boufarik", "Bougara", "Mouzaia", "Ouled Yaich"];
+      } else if (wilaya === "Batna") {
+        communes = ["Batna", "Tazoult", "Barika", "Aïn Touta", "Arris"];
+      } else if (wilaya === "Setif") {
+        communes = [
+          "Sétif",
+          "El Eulma",
+          "Aïn Oulmene",
+          "Bougaa",
+          "Aïn Arnat",
+        ];
+      } else if (wilaya === "Tlemcen") {
+        communes = ["Tlemcen", "Mansourah", "Chetouane", "Maghnia", "Remchi"];
+      }
+
+      // Ajouter les options de communes
+      communeSelect.innerHTML =
+        '<option value="">Sélectionnez une commune</option>';
+      communes.forEach((commune) => {
+        const option = document.createElement("option");
+        option.value = commune;
+        option.textContent = commune;
+        communeSelect.appendChild(option);
+      });
+    });
+
+    // Animation pour les champs invalides
+    function animateInvalidField(field) {
+      field.classList.add("shake");
+      field.style.borderColor = "var(--error-color)";
+      setTimeout(() => {
+        field.classList.remove("shake");
+      }, 500);
+    }
+
+    // Validation du formulaire
+    document
+      .getElementById("registrationForm")
+      .addEventListener("submit", function(e) {
+        e.preventDefault();
+
+        // Validation côté client
+        const form = this;
+        const requiredFields = form.querySelectorAll("[required]");
+        let isValid = true;
+
+        requiredFields.forEach((field) => {
+          if (!field.value.trim()) {
+            animateInvalidField(field);
+            isValid = false;
+          } else {
+            field.style.borderColor = "#dee2e6";
+          }
+
+          // Validation spécifique pour l'email
+          if (field.type === "email" && field.value) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(field.value)) {
+              animateInvalidField(field);
+              isValid = false;
+            }
+          }
+
+          // Validation spécifique pour le téléphone
+          if (field.id === "telephone" || field.id === "telephone_societe") {
+            const phoneRegex = /^[0-9+\s()-]{8,15}$/;
+            if (!phoneRegex.test(field.value)) {
+              animateInvalidField(field);
+              isValid = false;
+            }
+          }
+        });
+
+        const messageDiv = document.getElementById("message");
+
+        if (!isValid) {
+          messageDiv.textContent =
+            "Veuillez remplir correctement tous les champs obligatoires.";
+          messageDiv.className = "message error";
+          messageDiv.style.display = "block";
+
+          // Scroll to first invalid field
+          const firstInvalidField = form.querySelector(
+            '[style*="border-color: var(--error-color)"]'
+          );
+          if (firstInvalidField) {
+            firstInvalidField.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+          }
+
+          return;
+        }
+
+        // Simulation d'envoi de formulaire (à remplacer par votre logique d'envoi réelle)
+        const submitBtn = form.querySelector(".submit-btn");
+        const originalBtnText = submitBtn.innerHTML;
+
+        submitBtn.innerHTML =
+          '<i class="fas fa-spinner fa-spin"></i> Traitement en cours...';
+        submitBtn.disabled = true;
+
+        // Simuler un délai de traitement
+        setTimeout(() => {
+          messageDiv.textContent =
+            "Formulaire soumis avec succès! Nous traiterons votre demande dans les plus brefs délais.";
+          messageDiv.className = "message success";
+          messageDiv.style.display = "block";
+
+          submitBtn.innerHTML =
+            '<i class="fas fa-check"></i> Envoyé avec succès!';
+
+          // Réinitialiser le bouton après 3 secondes
+          setTimeout(() => {
+            submitBtn.innerHTML = originalBtnText;
+            submitBtn.disabled = false;
+          }, 3000);
+
+          // Scroll to message
+          messageDiv.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+          });
+
+          // Dans un environnement réel, vous utiliseriez AJAX pour envoyer les données au serveur
+        }, 1500);
+      });
+
+    // Effet de focus sur les sections
+    const formSections = document.querySelectorAll(".form-section");
+    formSections.forEach((section) => {
+      const inputs = section.querySelectorAll("input, select, textarea");
+      inputs.forEach((input) => {
+        input.addEventListener("focus", () => {
+          formSections.forEach((s) => (s.style.opacity = "0.8"));
+          section.style.opacity = "1";
+        });
+
+        input.addEventListener("blur", () => {
+          formSections.forEach((s) => (s.style.opacity = "1"));
+        });
+      });
+    });
+  </script>
+
   <style>
     :root {
       --primary-color: #0054a6;
@@ -24,26 +601,12 @@
       --white: #ffffff;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: "Poppins", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    }
 
     @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 
-    body {
-      background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
-      color: var(--dark-gray);
-      line-height: 1.6;
-      min-height: 100vh;
-      padding: 40px 20px;
-    }
-
     .container {
       max-width: 1100px;
-      margin: 0 auto;
+      margin: 30px;
       background-color: var(--white);
       border-radius: 20px;
       box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
@@ -477,588 +1040,6 @@
       animation: pulse 1.5s infinite;
     }
   </style>
-</head>
-
-<body>
-  <div class="container">
-    <div class="form-header">
-      <h1>Formulaire d'Enregistrement</h1>
-      <p>
-        Complétez le formulaire ci-dessous pour vous enregistrer. Tous les
-        champs marqués d'un astérisque (*) sont obligatoires.
-      </p>
-    </div>
-
-    <div class="form-content">
-      <form id="registrationForm" enctype="multipart/form-data">
-        <!-- Informations personnelles -->
-        <div class="form-section">
-          <h2 class="section-title">
-            <i class="fas fa-user"></i>Informations personnelles
-          </h2>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="civilite" class="required">Civilité</label>
-              <div class="input-wrapper">
-                <i class="fas fa-user-tag"></i>
-                <select id="civilite" name="civilite" required>
-                  <option value="">Sélectionnez</option>
-                  <option value="Mr">Mr</option>
-                  <option value="Mme">Mme</option>
-                  <option value="Mlle">Mlle</option>
-                </select>
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="nom" class="required">Nom</label>
-              <div class="input-wrapper">
-                <i class="fas fa-user-circle"></i>
-                <input
-                  type="text"
-                  id="nom"
-                  name="nom"
-                  placeholder="Votre nom"
-                  required />
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="prenom" class="required">Prénom</label>
-              <div class="input-wrapper">
-                <i class="fas fa-user-circle"></i>
-                <input
-                  type="text"
-                  id="prenom"
-                  name="prenom"
-                  placeholder="Votre prénom"
-                  required />
-              </div>
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="email" class="required">Email personnel</label>
-              <div class="input-wrapper">
-                <i class="fas fa-envelope"></i>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  placeholder="votre.email@exemple.com"
-                  required />
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="telephone" class="required">Numéro de téléphone</label>
-              <div class="input-wrapper">
-                <i class="fas fa-phone-alt"></i>
-                <input
-                  type="tel"
-                  id="telephone"
-                  name="telephone"
-                  placeholder="Ex: 0123456789"
-                  required />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Entité juridique -->
-        <div class="form-section">
-          <h2 class="section-title">
-            <i class="fas fa-building"></i>Entité juridique
-          </h2>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="raison_sociale" class="required">Raison sociale</label>
-              <div class="input-wrapper">
-                <i class="fas fa-briefcase"></i>
-                <input
-                  type="text"
-                  id="raison_sociale"
-                  name="raison_sociale"
-                  placeholder="Nom de votre entreprise"
-                  required />
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="domaine" class="required">Domaine du site web</label>
-              <div class="input-wrapper">
-                <i class="fas fa-globe"></i>
-                <input
-                  type="text"
-                  id="domaine"
-                  name="domaine"
-                  placeholder="exemple.com"
-                  required />
-              </div>
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="adresse" class="required">Adresse complète</label>
-              <div class="input-wrapper textarea-wrapper">
-                <i class="fas fa-map-marker-alt"></i>
-                <textarea
-                  id="adresse"
-                  name="adresse"
-                  placeholder="Adresse complète de votre entreprise"
-                  required></textarea>
-              </div>
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="wilaya" class="required">Wilaya</label>
-              <div class="input-wrapper">
-                <i class="fas fa-map"></i>
-                <select id="wilaya" name="wilaya" required>
-                  <option value="">Sélectionnez</option>
-                  <option value="Alger">Alger</option>
-                  <option value="Oran">Oran</option>
-                  <option value="Constantine">Constantine</option>
-                  <option value="Annaba">Annaba</option>
-                  <option value="Blida">Blida</option>
-                  <option value="Batna">Batna</option>
-                  <option value="Setif">Setif</option>
-                  <option value="Tlemcen">Tlemcen</option>
-                </select>
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="commune" class="required">Commune</label>
-              <div class="input-wrapper">
-                <i class="fas fa-city"></i>
-                <select id="commune" name="commune" required>
-                  <option value="">Sélectionnez d'abord une wilaya</option>
-                </select>
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="date_debut" class="required">Date de début d'activité</label>
-              <div class="input-wrapper">
-                <i class="fas fa-calendar-alt"></i>
-                <input
-                  type="date"
-                  id="date_debut"
-                  name="date_debut"
-                  required />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Activité -->
-        <div class="form-section">
-          <h2 class="section-title">
-            <i class="fas fa-briefcase"></i>Activité
-          </h2>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="type_activite" class="required">Type d'activité</label>
-              <div class="input-wrapper">
-                <i class="fas fa-tags"></i>
-                <select id="type_activite" name="type_activite" required>
-                  <option value="">Sélectionnez</option>
-                  <option value="Vente de biens">Vente de biens</option>
-                  <option value="Prestation de services">
-                    Prestation de services
-                  </option>
-                  <option value="Service public">Service public</option>
-                  <option value="Informatique">Informatique</option>
-                  <option value="Organisme socio-professionnel">
-                    Organisme socio-professionnel
-                  </option>
-                </select>
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="forme_juridique" class="required">Forme juridique</label>
-              <div class="input-wrapper">
-                <i class="fas fa-balance-scale"></i>
-                <select id="forme_juridique" name="forme_juridique" required>
-                  <option value="">Sélectionnez</option>
-                  <option value="Société Anonyme">Société Anonyme</option>
-                  <option value="SPA">SPA</option>
-                  <option value="SCS">SCS</option>
-                  <option value="SCA">SCA</option>
-                  <option value="SARL">SARL</option>
-                  <option value="SNC">SNC</option>
-                  <option value="Entreprise individuelle">
-                    Entreprise individuelle
-                  </option>
-                  <option value="EURL">EURL</option>
-                  <option value="START-UP">START-UP</option>
-                  <option value="EPIC">EPIC</option>
-                  <option value="Autres">Autres</option>
-                </select>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Coordonnées bancaires -->
-        <div class="form-section">
-          <h2 class="section-title">
-            <i class="fas fa-university"></i>Coordonnées bancaires
-          </h2>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="banque" class="required">Banque domiciliataire</label>
-              <div class="input-wrapper">
-                <i class="fas fa-landmark"></i>
-                <select id="banque" name="banque" required>
-                  <option value="">Sélectionnez</option>
-                  <option value="BNA">BNA</option>
-                  <option value="BEA">BEA</option>
-                  <option value="CPA">CPA</option>
-                  <option value="BDL">BDL</option>
-                  <option value="BADR">BADR</option>
-                  <option value="CNEP">CNEP</option>
-                  <option value="Al Baraka">Al Baraka</option>
-                  <option value="Société Générale">Société Générale</option>
-                </select>
-              </div>
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="email_societe" class="required">Email de l'entité</label>
-              <div class="input-wrapper">
-                <i class="fas fa-envelope"></i>
-                <input
-                  type="email"
-                  id="email_societe"
-                  name="email_societe"
-                  placeholder="contact@votre-entreprise.com"
-                  required />
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="telephone_societe" class="required">Téléphone de l'entité</label>
-              <div class="input-wrapper">
-                <i class="fas fa-phone-alt"></i>
-                <input
-                  type="tel"
-                  id="telephone_societe"
-                  name="telephone_societe"
-                  placeholder="Ex: 0123456789"
-                  required />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Registre de commerce -->
-        <div class="form-section">
-          <h2 class="section-title">
-            <i class="fas fa-file-contract"></i>Registre de commerce
-          </h2>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="numero_registre" class="required">Numéro du registre</label>
-              <div class="input-wrapper">
-                <i class="fas fa-hashtag"></i>
-                <input
-                  type="text"
-                  id="numero_registre"
-                  name="numero_registre"
-                  placeholder="Numéro du registre de commerce"
-                  required />
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="document" class="required">Document à téléverser</label>
-              <div class="file-upload">
-                <label for="document" class="file-upload-label">
-                  <i class="fas fa-cloud-upload-alt"></i>
-                  Choisir un fichier
-                </label>
-                <input
-                  type="file"
-                  id="document"
-                  name="document"
-                  accept=".pdf,.png,.jpg,.jpeg"
-                  required />
-              </div>
-              <div id="file-name" class="file-name">
-                <i class="fas fa-file-alt"></i>
-                <span>Aucun fichier sélectionné</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="submit-container">
-          <button type="submit" class="submit-btn">
-            <i class="fas fa-paper-plane"></i> Soumettre
-          </button>
-          <div id="message" class="message"></div>
-        </div>
-
-        <input
-          type="hidden"
-          name="action"
-          value="sefarpay_save_registration" />
-
-        <script>
-          document
-            .getElementById("registrationForm")
-            .addEventListener("submit", async function(e) {
-              e.preventDefault();
-
-              const form = document.getElementById("registrationForm");
-              const formData = new FormData(form);
-              const messageBox = document.getElementById("message");
-
-              messageBox.innerHTML = "⏳ Envoi en cours...";
-
-              const response = await fetch(ajaxurl, {
-                method: "POST",
-                body: formData,
-              });
-
-              const result = await response.json();
-
-              if (result.success) {
-                messageBox.innerHTML = `<p style="color:green">✅ ${result.data}</p>`;
-                form.reset();
-              } else {
-                messageBox.innerHTML = `<p style="color:red">❌ ${result.data}</p>`;
-              }
-            });
-        </script>
-      </form>
-    </div>
-  </div>
-
-  <script>
-    // Afficher le nom du fichier sélectionné
-    document
-      .getElementById("document")
-      .addEventListener("change", function(e) {
-        const fileNameSpan = document.querySelector("#file-name span");
-        const fileIcon = document.querySelector("#file-name i");
-
-        if (e.target.files[0]) {
-          const fileName = e.target.files[0].name;
-          fileNameSpan.textContent = fileName;
-
-          // Changer l'icône en fonction du type de fichier
-          const fileExt = fileName.split(".").pop().toLowerCase();
-          if (fileExt === "pdf") {
-            fileIcon.className = "fas fa-file-pdf";
-          } else if (["jpg", "jpeg", "png"].includes(fileExt)) {
-            fileIcon.className = "fas fa-file-image";
-          } else {
-            fileIcon.className = "fas fa-file-alt";
-          }
-        } else {
-          fileNameSpan.textContent = "Aucun fichier sélectionné";
-          fileIcon.className = "fas fa-file-alt";
-        }
-      });
-
-    // Simuler les communes en fonction de la wilaya sélectionnée
-    document.getElementById("wilaya").addEventListener("change", function() {
-      const wilaya = this.value;
-      const communeSelect = document.getElementById("commune");
-
-      // Vider le select des communes
-      communeSelect.innerHTML = "";
-
-      if (!wilaya) {
-        communeSelect.innerHTML =
-          '<option value="">Sélectionnez d\'abord une wilaya</option>';
-        return;
-      }
-
-      // Simuler les communes pour chaque wilaya
-      let communes = [];
-
-      if (wilaya === "Alger") {
-        communes = [
-          "Alger Centre",
-          "Bab El Oued",
-          "Bir Mourad Raïs",
-          "Hussein Dey",
-          "El Biar",
-          "Kouba",
-          "Bouzareah",
-          "Chéraga",
-        ];
-      } else if (wilaya === "Oran") {
-        communes = [
-          "Oran",
-          "Bir El Djir",
-          "Es Senia",
-          "Arzew",
-          "Bethioua",
-          "Mers El Kébir",
-          "Aïn El Turk",
-        ];
-      } else if (wilaya === "Constantine") {
-        communes = [
-          "Constantine",
-          "El Khroub",
-          "Hamma Bouziane",
-          "Didouche Mourad",
-          "Aïn Smara",
-          "Zighoud Youcef",
-        ];
-      } else if (wilaya === "Annaba") {
-        communes = [
-          "Annaba",
-          "El Bouni",
-          "El Hadjar",
-          "Sidi Amar",
-          "Berrahal",
-        ];
-      } else if (wilaya === "Blida") {
-        communes = ["Blida", "Boufarik", "Bougara", "Mouzaia", "Ouled Yaich"];
-      } else if (wilaya === "Batna") {
-        communes = ["Batna", "Tazoult", "Barika", "Aïn Touta", "Arris"];
-      } else if (wilaya === "Setif") {
-        communes = [
-          "Sétif",
-          "El Eulma",
-          "Aïn Oulmene",
-          "Bougaa",
-          "Aïn Arnat",
-        ];
-      } else if (wilaya === "Tlemcen") {
-        communes = ["Tlemcen", "Mansourah", "Chetouane", "Maghnia", "Remchi"];
-      }
-
-      // Ajouter les options de communes
-      communeSelect.innerHTML =
-        '<option value="">Sélectionnez une commune</option>';
-      communes.forEach((commune) => {
-        const option = document.createElement("option");
-        option.value = commune;
-        option.textContent = commune;
-        communeSelect.appendChild(option);
-      });
-    });
-
-    // Animation pour les champs invalides
-    function animateInvalidField(field) {
-      field.classList.add("shake");
-      field.style.borderColor = "var(--error-color)";
-      setTimeout(() => {
-        field.classList.remove("shake");
-      }, 500);
-    }
-
-    // Validation du formulaire
-    document
-      .getElementById("registrationForm")
-      .addEventListener("submit", function(e) {
-        e.preventDefault();
-
-        // Validation côté client
-        const form = this;
-        const requiredFields = form.querySelectorAll("[required]");
-        let isValid = true;
-
-        requiredFields.forEach((field) => {
-          if (!field.value.trim()) {
-            animateInvalidField(field);
-            isValid = false;
-          } else {
-            field.style.borderColor = "#dee2e6";
-          }
-
-          // Validation spécifique pour l'email
-          if (field.type === "email" && field.value) {
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(field.value)) {
-              animateInvalidField(field);
-              isValid = false;
-            }
-          }
-
-          // Validation spécifique pour le téléphone
-          if (field.id === "telephone" || field.id === "telephone_societe") {
-            const phoneRegex = /^[0-9+\s()-]{8,15}$/;
-            if (!phoneRegex.test(field.value)) {
-              animateInvalidField(field);
-              isValid = false;
-            }
-          }
-        });
-
-        const messageDiv = document.getElementById("message");
-
-        if (!isValid) {
-          messageDiv.textContent =
-            "Veuillez remplir correctement tous les champs obligatoires.";
-          messageDiv.className = "message error";
-          messageDiv.style.display = "block";
-
-          // Scroll to first invalid field
-          const firstInvalidField = form.querySelector(
-            '[style*="border-color: var(--error-color)"]'
-          );
-          if (firstInvalidField) {
-            firstInvalidField.scrollIntoView({
-              behavior: "smooth",
-              block: "center",
-            });
-          }
-
-          return;
-        }
-
-        // Simulation d'envoi de formulaire (à remplacer par votre logique d'envoi réelle)
-        const submitBtn = form.querySelector(".submit-btn");
-        const originalBtnText = submitBtn.innerHTML;
-
-        submitBtn.innerHTML =
-          '<i class="fas fa-spinner fa-spin"></i> Traitement en cours...';
-        submitBtn.disabled = true;
-
-        // Simuler un délai de traitement
-        setTimeout(() => {
-          messageDiv.textContent =
-            "Formulaire soumis avec succès! Nous traiterons votre demande dans les plus brefs délais.";
-          messageDiv.className = "message success";
-          messageDiv.style.display = "block";
-
-          submitBtn.innerHTML =
-            '<i class="fas fa-check"></i> Envoyé avec succès!';
-
-          // Réinitialiser le bouton après 3 secondes
-          setTimeout(() => {
-            submitBtn.innerHTML = originalBtnText;
-            submitBtn.disabled = false;
-          }, 3000);
-
-          // Scroll to message
-          messageDiv.scrollIntoView({
-            behavior: "smooth",
-            block: "center"
-          });
-
-          // Dans un environnement réel, vous utiliseriez AJAX pour envoyer les données au serveur
-        }, 1500);
-      });
-
-    // Effet de focus sur les sections
-    const formSections = document.querySelectorAll(".form-section");
-    formSections.forEach((section) => {
-      const inputs = section.querySelectorAll("input, select, textarea");
-      inputs.forEach((input) => {
-        input.addEventListener("focus", () => {
-          formSections.forEach((s) => (s.style.opacity = "0.8"));
-          section.style.opacity = "1";
-        });
-
-        input.addEventListener("blur", () => {
-          formSections.forEach((s) => (s.style.opacity = "1"));
-        });
-      });
-    });
-  </script>
 </body>
 
 </html>

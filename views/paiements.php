@@ -8,92 +8,66 @@
     <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
 
 </head>
 
 <body>
+
+
+
+
+
     <div class="container">
         <div class="page-header">
-            <div class="page-header">
-                <h1>Liste des Paiements</h1>
-                <p>
-                    Consultez et gérez l'historique complet des transactions de paiement
-                    effectuées via l'API SATIM.
-                </p>
-            </div>
+            <h1>Liste des Paiements {{ message }}</h1>
+            <p>
+                Consultez et gérez l'historique complet des transactions de paiement
+                effectuées via l'API SATIM.
+            </p>
         </div>
 
-        <div class="page-content">
+        <div id="app" class="page-content">
             <!-- Filtres et actions -->
             <div class="filters-section">
                 <h2 class="section-title"><i class="fas fa-filter"></i>Filtres</h2>
                 <div class="filters-row">
                     <div class="filter-group">
                         <label for="status-filter">État du paiement</label>
-                        <i class="fas fa-check-circle filter-icon"></i>
-                        <select id="status-filter" class="filter-input">
+                        <select id="status-filter" class="filter-input" v-model="status">
                             <option value="">Tous les états</option>
                             <option value="success">Succès</option>
                             <option value="error">Échec</option>
-                            <option value="pending">En attente</option>
-                            <option value="refunded">Remboursé</option>
                         </select>
                     </div>
                     <div class="filter-group">
-                        <label for="date-from">Date de début</label>
-                        <i class="fas fa-calendar-alt filter-icon"></i>
-                        <input type="date" id="date-from" class="filter-input" />
+                        <label for="date-from">Date du paiement</label>
+                        <input
+                            type="date"
+                            id="date-from"
+                            class="filter-input"
+                            v-model="date" />
                     </div>
-                    <div class="filter-group">
-                        <label for="date-to">Date de fin</label>
-                        <i class="fas fa-calendar-alt filter-icon"></i>
-                        <input type="date" id="date-to" class="filter-input" />
-                    </div>
+
                     <div class="filter-group">
                         <label for="amount-min">Montant minimum</label>
-                        <i class="fas fa-money-bill-wave filter-icon"></i>
                         <input
                             type="number"
                             id="amount-min"
                             class="filter-input"
-                            placeholder="0" />
-                    </div>
-                    <div class="filter-group">
-                        <label for="amount-max">Montant maximum</label>
-                        <i class="fas fa-money-bill-wave filter-icon"></i>
-                        <input
-                            type="number"
-                            id="amount-max"
-                            class="filter-input"
-                            placeholder="10000" />
+                            v-model.number="amount"
+                            placeholder="0"
+                            min="0" />
                     </div>
                 </div>
-                <div class="filters-row">
-                    <div class="filter-group">
-                        <label for="search">Recherche</label>
-                        <i class="fas fa-search filter-icon"></i>
-                        <input
-                            type="text"
-                            id="search"
-                            class="filter-input"
-                            placeholder="Numéro de commande, ID transaction, nom..." />
-                    </div>
-                </div>
+
                 <div class="actions-row">
                     <div>
-                        <button id="apply-filters" class="export-btn">
-                            <i class="fas fa-search"></i> Appliquer les filtres
-                        </button>
-                        <button id="reset-filters" class="reset-btn">
-                            <i class="fas fa-undo"></i> Réinitialiser
-                        </button>
-                    </div>
-                    <div>
-                        <button id="export-csv" class="export-btn">
+                        <button @click="exportCSV" class="export-btn">
                             <i class="fas fa-file-csv"></i> Exporter CSV
                         </button>
-                        <button id="export-excel" class="export-btn">
+                        <button @click="exportExcel" class="export-btn">
                             <i class="fas fa-file-excel"></i> Exporter Excel
                         </button>
                     </div>
@@ -105,134 +79,325 @@
                 <table class="payments-table">
                     <thead>
                         <tr>
-                            <th data-sort="order"><i class="fas fa-sort"></i> Numéro de commande</th>
-                            <th data-sort="user"><i class="fas fa-sort"></i> Utilisateur</th>
-                            <th data-sort="transaction"><i class="fas fa-sort"></i> ID Transaction</th>
-                            <th data-sort="date"><i class="fas fa-sort"></i> Date</th>
-                            <th data-sort="description"><i class="fas fa-sort"></i> Description</th>
-                            <th data-sort="amount"><i class="fas fa-sort"></i> Montant</th>
-                            <th data-sort="payment"><i class="fas fa-sort"></i> Moyen</th>
-                            <th data-sort="status"><i class="fas fa-sort"></i> État</th>
-                            <th data-sort="actions">Actions</th>
+                            <th><i class="fas fa-sort"></i> Numéro de commande</th>
+                            <th><i class="fas fa-sort"></i> Utilisateur</th>
+                            <th><i class="fas fa-sort"></i> ID Transaction</th>
+                            <th><i class="fas fa-sort"></i> Date</th>
+                            <th><i class="fas fa-sort"></i> Description</th>
+                            <th><i class="fas fa-sort"></i> Montant</th>
+                            <th><i class="fas fa-sort"></i> Moyen</th>
+                            <th><i class="fas fa-sort"></i> État</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
-                    <tbody id="payments-data">
-                        <?php
-                        if (empty($paiements)) {
-                            echo '<tr><td colspan="9">Aucun paiement enregistré pour le moment.</td></tr>';
-                        } else {
-                            foreach ($paiements as $index => $p) {
-                                $id = $index + 1;
-                        ?>
-                                <tr class="" data-id="<?= $id ?>">
-                                    <td><?= esc_html($p->numero_commande) ?></td>
-                                    <td>
-                                        <div class="tooltip">
-                                            <?= esc_html($p->nom_utilisateur) ?>
-                                            <span class="tooltip-text">
-                                                <?= esc_html($p->email_utilisateur) ?><br>
-                                                <?= esc_html($p->telephone_utilisateur) ?>
-                                            </span>
-                                        </div>
-                                    </td>
-                                    <td><?= esc_html($p->transaction_id) ?></td>
-                                    <td><?= esc_html($p->date_paiement) ?></td>
-                                    <td><?= esc_html($p->description) ?></td>
-                                    <td><?= number_format((float)$p->montant, 2, ',', ' ') . ' ' . esc_html($p->devise) ?></td>
-                                    <td><?= esc_html($p->moyen_paiement) ?></td>
-                                    <td><span class="status status-<?= strtolower($p->etat_paiement) ?>"><?= esc_html($p->etat_paiement) ?></span></td>
-                                    <td>
-                                        <button class="toggle-details" data-id="<?= $id ?>">
-                                            <i class="fas fa-chevron-down"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="9" class="p-0">
-                                        <div id="details-<?= $id ?>" class="transaction-details" style="display:none;">
-                                            <div class="details-grid">
-                                                <div class="detail-item">
-                                                    <div class="detail-label">Nom du porteur</div>
-                                                    <div class="detail-value"><?= esc_html($p->nom_carte) ?></div>
-                                                </div>
-                                                <div class="detail-item">
-                                                    <div class="detail-label">Numéro de carte</div>
-                                                    <div class="detail-value"><?= esc_html($p->pan) ?></div>
-                                                </div>
-                                                <div class="detail-item">
-                                                    <div class="detail-label">Système de paiement</div>
-                                                    <div class="detail-value"><?= esc_html($p->systeme_paiement) ?></div>
-                                                </div>
-                                                <div class="detail-item">
-                                                    <div class="detail-label">Score de fraude</div>
-                                                    <div class="detail-value"><?= esc_html($p->score_fraude) ?></div>
-                                                </div>
-                                                <div class="detail-item">
-                                                    <div class="detail-label">Adresse IP</div>
-                                                    <div class="detail-value"><?= esc_html($p->ip_utilisateur) ?></div>
-                                                </div>
-                                                <div class="detail-item">
-                                                    <div class="detail-label">Banque du payeur</div>
-                                                    <div class="detail-value"><?= esc_html($p->banque) ?></div>
-                                                </div>
-                                                <div class="detail-item">
-                                                    <div class="detail-label">Pays de la banque</div>
-                                                    <div class="detail-value"><?= esc_html($p->pays_banque) ?></div>
-                                                </div>
-                                                <div class="detail-item">
-                                                    <div class="detail-label">Montant approuvé</div>
-                                                    <div class="detail-value"><?= number_format((float)$p->montant_approuve, 2, ',', ' ') ?> DZD</div>
-                                                </div>
-                                                <div class="detail-item">
-                                                    <div class="detail-label">Montant déposé</div>
-                                                    <div class="detail-value"><?= number_format((float)$p->montant_depose, 2, ',', ' ') ?> DZD</div>
-                                                </div>
-                                                <div class="detail-item">
-                                                    <div class="detail-label">Montant remboursé</div>
-                                                    <div class="detail-value"><?= number_format((float)$p->montant_rembourse, 2, ',', ' ') ?> DZD</div>
-                                                </div>
-                                                <div class="detail-item">
-                                                    <div class="detail-label">ID du terminal</div>
-                                                    <div class="detail-value"><?= esc_html($p->terminal_id) ?></div>
-                                                </div>
-                                                <div class="detail-item">
-                                                    <div class="detail-label">Type d'authentification</div>
-                                                    <div class="detail-value"><?= esc_html($p->type_authentification) ?></div>
-                                                </div>
+                    <tbody>
+                        <template v-if="pagedPayments.length">
+                            <tr
+                                v-for="(paiement, index) in pagedPayments"
+                                :key="paiement.id"
+                                :data-id="index + 1">
+                                <td>{{ paiement.numero_commande }}</td>
+                                <td>
+                                    <div class="tooltip">
+                                        {{ paiement.nom_utilisateur }}
+                                        <span class="tooltip-text">
+                                            {{ paiement.email_utilisateur }}<br />
+                                            {{ paiement.telephone_utilisateur }}
+                                        </span>
+                                    </div>
+                                </td>
+                                <td>{{ paiement.transaction_id }}</td>
+                                <td>{{ paiement.date_paiement }}</td>
+                                <td>{{ paiement.description }}</td>
+                                <td>{{ formatAmount(paiement.montant, paiement.devise) }}</td>
+                                <td>{{ paiement.moyen_paiement }}</td>
+                                <td>
+                                    <span
+                                        :class="['status', 'status-' + paiement.etat_paiement.toLowerCase()]">
+                                        {{ paiement.etat_paiement }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <button class="toggle-details" data-id="{{paiement.id }}">
+                                        <i class="fas fa-chevron-down"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr v-if="detailsVisible[index]" class="details-row">
+                                <td colspan="9" class="p-0">
+                                    <div class="transaction-details">
+                                        <div class="details-grid">
+                                            <div class="detail-item">
+                                                <div class="detail-label">Nom du porteur</div>
+                                                <div class="detail-value">{{ paiement.nom_carte }}</div>
+                                            </div>
+                                            <div class="detail-item">
+                                                <div class="detail-label">Numéro de carte</div>
+                                                <div class="detail-value">{{ paiement.pan }}</div>
+                                            </div>
+                                            <div class="detail-item">
+                                                <div class="detail-label">Système de paiement</div>
+                                                <div class="detail-value">{{ paiement.systeme_paiement }}</div>
+                                            </div>
+                                            <div class="detail-item">
+                                                <div class="detail-label">Score de fraude</div>
+                                                <div class="detail-value">{{ paiement.score_fraude }}</div>
+                                            </div>
+                                            <div class="detail-item">
+                                                <div class="detail-label">Adresse IP</div>
+                                                <div class="detail-value">{{ paiement.ip_utilisateur }}</div>
+                                            </div>
+                                            <div class="detail-item">
+                                                <div class="detail-label">Banque du payeur</div>
+                                                <div class="detail-value">{{ paiement.banque }}</div>
+                                            </div>
+                                            <div class="detail-item">
+                                                <div class="detail-label">Pays de la banque</div>
+                                                <div class="detail-value">{{ paiement.pays_banque }}</div>
+                                            </div>
+                                            <div class="detail-item">
+                                                <div class="detail-label">Montant approuvé</div>
+                                                <div class="detail-value">{{ formatAmount(paiement.montant_approuve, 'DZD') }}</div>
+                                            </div>
+                                            <div class="detail-item">
+                                                <div class="detail-label">Montant déposé</div>
+                                                <div class="detail-value">{{ formatAmount(paiement.montant_depose, 'DZD') }}</div>
+                                            </div>
+                                            <div class="detail-item">
+                                                <div class="detail-label">Montant remboursé</div>
+                                                <div class="detail-value">{{ formatAmount(paiement.montant_rembourse, 'DZD') }}</div>
+                                            </div>
+                                            <div class="detail-item">
+                                                <div class="detail-label">ID du terminal</div>
+                                                <div class="detail-value">{{ paiement.terminal_id }}</div>
+                                            </div>
+                                            <div class="detail-item">
+                                                <div class="detail-label">Type d'authentification</div>
+                                                <div class="detail-value">{{ paiement.type_authentification }}</div>
                                             </div>
                                         </div>
-                                    </td>
-                                </tr>
-                        <?php
-                            }
-                        }
-                        ?>
+                                    </div>
+                                </td>
+                            </tr>
+                        </template>
+                        <tr v-else>
+                            <td colspan="9" class="empty-state">
+                                <i class="fas fa-search"></i>
+                                <h3>Aucun paiement trouvé</h3>
+                                <p>Essayez de modifier vos filtres.</p>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
 
-            <!-- État vide -->
-            <div id="empty-state" class="empty-state" style="display:none;">
-                <i class="fas fa-search"></i>
-                <h3>Aucun paiement trouvé</h3>
-                <p>Essayez de modifier vos filtres.</p>
-            </div>
-
             <!-- Loader -->
-            <div id="loader" class="loader" style="display:none;">
+            <div id="loader" class="loader" v-show="loading">
                 <i class="fas fa-spinner fa-spin"></i>
             </div>
 
-            <!-- Pagination (statique pour l’instant) -->
+            <!-- Pagination (statique) -->
             <div class="pagination">
-                <button class="pagination-btn" data-page="prev"><i class="fas fa-chevron-left"></i></button>
-                <button class="pagination-btn active">1</button>
-                <button class="pagination-btn">2</button>
-                <button class="pagination-btn">3</button>
-                <button class="pagination-btn" data-page="next"><i class="fas fa-chevron-right"></i></button>
+                <button class="pagination-btn" @click="prevPage" :disabled="currentPage === 1">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button
+                    class="pagination-btn"
+                    :class="{ active: currentPage === 1 }"
+                    @click="goToPage(1)">
+                    1
+                </button>
+                <button
+                    class="pagination-btn"
+                    :class="{ active: currentPage === 2 }"
+                    @click="goToPage(2)"
+                    v-if="totalPages >= 2">
+                    2
+                </button>
+                <button
+                    class="pagination-btn"
+                    :class="{ active: currentPage === 3 }"
+                    @click="goToPage(3)"
+                    v-if="totalPages >= 3">
+                    3
+                </button>
+                <button
+                    class="pagination-btn"
+                    @click="nextPage"
+                    :disabled="currentPage === totalPages">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
             </div>
         </div>
+
+        <script>
+            const paiementsData = <?= json_encode($paiements, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP); ?>;
+
+            const app = Vue.createApp({
+                data() {
+                    return {
+                        paiements: paiementsData || [],
+                        date: '',
+                        amount: 0,
+                        status: '',
+                        currentPage: 1,
+                        itemsPerPage: 10,
+                        detailsVisible: {},
+                        loading: false,
+                    };
+                },
+                computed: {
+                    filteredPayments() {
+                        return this.paiements.filter((p) => {
+                            const matchesStatus = !this.status || p.etat_paiement.toLowerCase() === this.status.toLowerCase();
+                            const matchesDate = !this.date || p.date_paiement === this.date;
+                            const matchesAmount = !this.amount || Number(p.montant) >= this.amount;
+                            return matchesStatus && matchesDate && matchesAmount;
+                        });
+                    },
+                    totalPages() {
+                        return Math.ceil(this.filteredPayments.length / this.itemsPerPage) || 1;
+                    },
+                    pagedPayments() {
+                        const start = (this.currentPage - 1) * this.itemsPerPage;
+                        return this.filteredPayments.slice(start, start + this.itemsPerPage);
+                    },
+                },
+                methods: {
+                    formatAmount(value, devise) {
+                        if (value == null) return '';
+                        return Number(value).toLocaleString('fr-FR', {
+                            style: 'currency',
+                            currency: devise || 'EUR',
+                        });
+                    },
+                    toggleDetails(index) {
+                        this.detailsVisible = {
+                            ...this.detailsVisible,
+                            [index]: !this.detailsVisible[index],
+                        };
+
+                    },
+                    prevPage() {
+                        if (this.currentPage > 1) this.currentPage--;
+                    },
+                    nextPage() {
+                        if (this.currentPage < this.totalPages) this.currentPage++;
+                    },
+                    goToPage(page) {
+                        if (page >= 1 && page <= this.totalPages) {
+                            this.currentPage = page;
+                        }
+                    },
+                    exportCSV() {
+                        if (!this.paiements.length) return;
+
+                        // Colonnes à exporter
+                        const headers = [
+                            'Numéro de commande',
+                            'Utilisateur',
+                            'ID Transaction',
+                            'Date',
+                            'Description',
+                            'Montant',
+                            'Moyen',
+                            'État'
+                        ];
+
+                        // Construire les lignes CSV
+                        const rows = this.paiements.map(p => [
+                            p.numero_commande,
+                            p.nom_utilisateur,
+                            p.transaction_id,
+                            p.date_paiement,
+                            p.description,
+                            p.montant,
+                            p.moyen_paiement,
+                            p.etat_paiement
+                        ]);
+
+                        // Créer contenu CSV
+                        const csvContent = [
+                            headers.join(';'),
+                            ...rows.map(r => r.map(field => `"${String(field).replace(/"/g, '""')}"`).join(';'))
+                        ].join('\n');
+
+                        // Télécharger le fichier
+                        const blob = new Blob([csvContent], {
+                            type: 'text/csv;charset=utf-8;'
+                        });
+                        const link = document.createElement('a');
+                        link.href = URL.createObjectURL(blob);
+                        link.setAttribute('download', 'paiements.csv');
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                    },
+                    exportExcel() {
+                        if (!this.paiements.length) return;
+
+                        const ws_data = [
+                            ['Numéro de commande', 'Utilisateur', 'ID Transaction', 'Date', 'Description', 'Montant', 'Moyen', 'État']
+                        ];
+
+                        this.paiements.forEach(p => {
+                            ws_data.push([
+                                p.numero_commande,
+                                p.nom_utilisateur,
+                                p.transaction_id,
+                                p.date_paiement,
+                                p.description,
+                                p.montant,
+                                p.moyen_paiement,
+                                p.etat_paiement
+                            ]);
+                        });
+
+                        const wb = XLSX.utils.book_new();
+                        const ws = XLSX.utils.aoa_to_sheet(ws_data);
+                        XLSX.utils.book_append_sheet(wb, ws, 'Paiements');
+
+                        XLSX.writeFile(wb, 'paiements.xlsx');
+                    }
+
+                },
+            });
+
+            app.mount('#app');
+        </script>
+
     </div>
+
+
+
+
+
+    <script>
+        // Afficher/masquer les détails de transaction
+        document.querySelectorAll(".toggle-details").forEach((button) => {
+            button.addEventListener("click", function() {
+                const id = this.getAttribute("data-id");
+                const detailsDiv = document.getElementById(`details-${id}`);
+
+                if (detailsDiv.style.display === "block") {
+                    detailsDiv.style.display = "none";
+                    this.classList.remove("open");
+                } else {
+                    // Fermer tous les autres détails ouverts
+                    document.querySelectorAll(".transaction-details").forEach((div) => {
+                        div.style.display = "none";
+                    });
+                    document.querySelectorAll(".toggle-details").forEach((btn) => {
+                        btn.classList.remove("open");
+                    });
+
+                    // Ouvrir les détails actuels
+                    detailsDiv.style.display = "block";
+                    this.classList.add("open");
+                }
+            });
+        });
+    </script>
 
     <style>
         :root {
@@ -252,13 +417,6 @@
             --white: #ffffff;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: "Poppins", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        }
-
         @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 
         body {
@@ -266,12 +424,10 @@
             color: var(--dark-gray);
             line-height: 1.6;
             min-height: 100vh;
-            padding: 40px 20px;
         }
 
         .container {
-            max-width: 1400px;
-            margin: 0 auto;
+            margin: 15px;
             background-color: var(--white);
             border-radius: 20px;
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
@@ -827,181 +983,5 @@
             margin: 0 auto;
         }
     </style>
-
-    <script>
-        // Afficher/masquer les détails de transaction
-        document.querySelectorAll(".toggle-details").forEach((button) => {
-            button.addEventListener("click", function() {
-                const id = this.getAttribute("data-id");
-                const detailsDiv = document.getElementById(`details-${id}`);
-
-                if (detailsDiv.style.display === "block") {
-                    detailsDiv.style.display = "none";
-                    this.classList.remove("open");
-                } else {
-                    // Fermer tous les autres détails ouverts
-                    document.querySelectorAll(".transaction-details").forEach((div) => {
-                        div.style.display = "none";
-                    });
-                    document.querySelectorAll(".toggle-details").forEach((btn) => {
-                        btn.classList.remove("open");
-                    });
-
-                    // Ouvrir les détails actuels
-                    detailsDiv.style.display = "block";
-                    this.classList.add("open");
-                }
-            });
-        });
-
-        // Tri des colonnes
-        document
-            .querySelectorAll(".payments-table th[data-sort]")
-            .forEach((header) => {
-                header.addEventListener("click", function() {
-                    const sortBy = this.getAttribute("data-sort");
-                    const currentDirection =
-                        this.getAttribute("data-direction") || "asc";
-                    const newDirection = currentDirection === "asc" ? "desc" : "asc";
-
-                    // Réinitialiser toutes les directions de tri
-                    document
-                        .querySelectorAll(".payments-table th[data-sort]")
-                        .forEach((th) => {
-                            th.removeAttribute("data-direction");
-                            th.querySelector("i").className = "fas fa-sort";
-                        });
-
-                    // Définir la nouvelle direction de tri
-                    this.setAttribute("data-direction", newDirection);
-                    this.querySelector("i").className =
-                        newDirection === "asc" ? "fas fa-sort-up" : "fas fa-sort-down";
-
-                    // Simuler le chargement
-                    document.getElementById("loader").style.display = "block";
-                    document.querySelector(".table-container").style.opacity = "0.5";
-
-                    // Simuler un délai de tri
-                    setTimeout(() => {
-                        // Dans un environnement réel, vous trieriez les données ici
-                        document.getElementById("loader").style.display = "none";
-                        document.querySelector(".table-container").style.opacity = "1";
-                    }, 500);
-                });
-            });
-
-        // Pagination
-        document.querySelectorAll(".pagination-btn").forEach((button) => {
-            if (!button.hasAttribute("data-page")) {
-                button.addEventListener("click", function() {
-                    document.querySelectorAll(".pagination-btn").forEach((btn) => {
-                        btn.classList.remove("active");
-                    });
-                    this.classList.add("active");
-
-                    // Simuler le chargement
-                    document.getElementById("loader").style.display = "block";
-                    document.querySelector(".table-container").style.opacity = "0.5";
-
-                    // Simuler un délai de chargement de page
-                    setTimeout(() => {
-                        // Dans un environnement réel, vous chargeriez les données de la page ici
-                        document.getElementById("loader").style.display = "none";
-                        document.querySelector(".table-container").style.opacity = "1";
-                    }, 500);
-                });
-            }
-        });
-
-        // Navigation de pagination
-        document
-            .querySelector('.pagination-btn[data-page="prev"]')
-            .addEventListener("click", function() {
-                const activePage = document.querySelector(".pagination-btn.active");
-                if (
-                    activePage.previousElementSibling &&
-                    !activePage.previousElementSibling.hasAttribute("data-page")
-                ) {
-                    activePage.previousElementSibling.click();
-                }
-            });
-
-        document
-            .querySelector('.pagination-btn[data-page="next"]')
-            .addEventListener("click", function() {
-                const activePage = document.querySelector(".pagination-btn.active");
-                if (
-                    activePage.nextElementSibling &&
-                    !activePage.nextElementSibling.hasAttribute("data-page")
-                ) {
-                    activePage.nextElementSibling.click();
-                }
-            });
-
-        // Filtres
-        document
-            .getElementById("apply-filters")
-            .addEventListener("click", function() {
-                // Simuler le chargement
-                document.getElementById("loader").style.display = "block";
-                document.querySelector(".table-container").style.opacity = "0.5";
-
-                // Simuler un délai de filtrage
-                setTimeout(() => {
-                    // Dans un environnement réel, vous filtreriez les données ici
-                    document.getElementById("loader").style.display = "none";
-                    document.querySelector(".table-container").style.opacity = "1";
-
-                    // Simuler un résultat vide (pour démonstration)
-                    const statusFilter = document.getElementById("status-filter").value;
-                    if (statusFilter === "refunded") {
-                        document.getElementById("payments-data").style.display = "none";
-                        document.getElementById("empty-state").style.display = "block";
-                    } else {
-                        document.getElementById("payments-data").style.display = "";
-                        document.getElementById("empty-state").style.display = "none";
-                    }
-                }, 800);
-            });
-
-        // Réinitialiser les filtres
-        document
-            .getElementById("reset-filters")
-            .addEventListener("click", function() {
-                document.getElementById("status-filter").value = "";
-                document.getElementById("date-from").value = "";
-                document.getElementById("date-to").value = "";
-                document.getElementById("amount-min").value = "";
-                document.getElementById("amount-max").value = "";
-                document.getElementById("search").value = "";
-
-                // Simuler le chargement
-                document.getElementById("loader").style.display = "block";
-                document.querySelector(".table-container").style.opacity = "0.5";
-
-                // Simuler un délai de réinitialisation
-                setTimeout(() => {
-                    document.getElementById("loader").style.display = "none";
-                    document.querySelector(".table-container").style.opacity = "1";
-                    document.getElementById("payments-data").style.display = "";
-                    document.getElementById("empty-state").style.display = "none";
-                }, 500);
-            });
-
-        // Exportation
-        document
-            .getElementById("export-csv")
-            .addEventListener("click", function() {
-                alert("Exportation CSV en cours...");
-                // Dans un environnement réel, vous généreriez et téléchargeriez un fichier CSV ici
-            });
-
-        document
-            .getElementById("export-excel")
-            .addEventListener("click", function() {
-                alert("Exportation Excel en cours...");
-                // Dans un environnement réel, vous généreriez et téléchargeriez un fichier Excel ici
-            });
-    </script>
 
 </html>

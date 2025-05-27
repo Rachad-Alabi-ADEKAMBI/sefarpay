@@ -107,7 +107,15 @@ function sefarpay_render_enregistrement_page()
 
 function sefarpay_render_enregistrement_page()
 {
-    sefarpay_render_html_view('enregistrement.php');
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'sefarpay_enregistrements';
+
+    // Récupérer un seul enregistrement (exemple: le premier)
+    $enregistrement = $wpdb->get_row("SELECT * FROM $table_name LIMIT 1", ARRAY_A);
+
+    sefarpay_render_html_view('enregistrement.php', [
+        'enregistrement' => $enregistrement,
+    ]);
 }
 
 

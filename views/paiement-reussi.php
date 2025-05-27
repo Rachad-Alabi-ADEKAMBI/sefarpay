@@ -87,7 +87,7 @@
                           Imprimer la facture
                       </button>
 
-                      <buttton class="action-btn email-btn" onclick="sendEmail()">
+                      <buttton class="action-btn email-btn" onclick="sendFactureEmail()">
                           <i class="fas fa-envelope"></i>
                           Envoyer par email
                           </button>
@@ -115,6 +115,16 @@
               window.print();
               document.body.innerHTML = original;
           }
+
+          function sendFactureEmail(email) {
+              const factureText = document.getElementById('facture').innerText.trim();
+              const subject = encodeURIComponent('Votre facture');
+              const body = encodeURIComponent(factureText);
+
+              const mailtoUrl = `mailto:${email}?subject=${subject}&body=${body}`;
+              window.location.href = mailtoUrl;
+          }
+
 
 
           async function downloadFacturePDF() {
