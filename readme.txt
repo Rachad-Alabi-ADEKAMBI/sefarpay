@@ -1,5 +1,5 @@
 === Sefarpay ===
-Contributors: rachad-dev
+Contributors: Sefarpay Capital 
 Tags: paiement, paiement sécurisé, e-commerce, gateway, satim
 Requires at least: 5.0
 Tested up to: 6.5
@@ -19,7 +19,7 @@ Fonctionnalités principales :
 - Affichage des paiements effectués dans l'administration
 - Validation des statuts de transaction
 - Journalisation des paiements avec détails de transaction
-- Compatible avec WooCommerce (optionnel à activer)
+- Compatible avec WooCommerce
 
 == Installation ==
 
@@ -31,7 +31,7 @@ Fonctionnalités principales :
 == Frequently Asked Questions ==
 
 = Est-ce que ce plugin est compatible avec WooCommerce ? =
-Oui, une intégration WooCommerce est en cours de développement ou peut être activée manuellement si nécessaire.
+Oui, une intégration WooCommerce est 100% compatible avec Wordpress
 
 = Où puis-je voir les transactions ? =
 Toutes les transactions sont visibles dans le menu d’administration “Sefarpay > Paiements”.
@@ -41,8 +41,8 @@ Oui. Aucune donnée sensible n’est stockée. Les paiements sont directement tr
 
 == Screenshots ==
 
-1. Liste des transactions dans l'administration
-2. Détails d'une transaction
+1. Page d'accueil
+2. Détails des transactions
 3. Interface de paiement (frontend)
 
 == Changelog ==
@@ -60,4 +60,4 @@ Première version officielle du plugin Sefarpay.
 
 == License ==
 
-Ce plugin est sous licence GPLv2 ou ultérieure.
+Ce plugin n'est pas encore sous licence

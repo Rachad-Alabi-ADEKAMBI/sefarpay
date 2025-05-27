@@ -3,7 +3,7 @@
 Plugin Name: Sefarpay
 Description: Plugin de paiement WordPress pour Sefar Capital.
 Version: 1.0
-Author: Rachad
+Author: Sefar Capital
 */
 
 if (!defined('ABSPATH')) exit;
@@ -12,6 +12,23 @@ define('SEFARPAY_PATH', plugin_dir_path(__FILE__));
 
 // Inclure le fichier qui gère les menus admin
 require_once SEFARPAY_PATH . 'admin/sefarpay-admin-menu.php';
+
+//definir les urls des APIs en local
+/*
+define('SEFARPAY_API_URL_PAYMENT_DO', 'http://localhost/satimtest/do.php?');
+define('SEFARPAY_API_URL_PAYMENT_CONFIRMATON', 'http://localhost/satimtest/confirmOrder.php?');
+define('SEFARPAY_API_URL_CHECK_ACCOUNT_STATUS', 'http://localhost/sefarpay_management/wp-json/sefarpay_management/v1/account_status');
+define('SEFARPAY_API_URL_NEW_PAYMENT', 'http://localhost/sefarpay_management/wp-json/sefarpay_management/v1/new-payment');
+define('SEFARPAY_API_URL_REGISTER', 'http://localhost/sefarpay_management/wp-json/sefarpay_management/v1/register');
+*/
+
+
+define('SEFARPAY_API_URL_PAYMENT_DO', 'https://satimtest0.free.nf/do.php?');
+define('SEFARPAY_API_URL_PAYMENT_CONFIRMATON', 'https://satimtest0.free.nf/confirmOrder.php?');
+define('SEFARPAY_API_URL_CHECK_ACCOUNT_STATUS', 'https://sefarpaymanagement.free.nf/wp-json/sefarpay_management/v1/account_status');
+define('SEFARPAY_API_URL_NEW_PAYMENT', 'https://sefarpaymanagement.free.nf/wp-json/sefarpay_management/v1/new-payment');
+define('SEFARPAY_API_URL_REGISTER', 'https://sefarpaymanagement.free.nf/wp-json/sefarpay_management/v1/register');
+
 
 // Notification à l’activation du plugin
 function sefarpay_activation_notice()
@@ -86,17 +103,32 @@ function sefarpay_payment_success_shortcode()
     }
 
 
-    //recupere les  informations language, username et password  depuis la table sefarpay_configuration,
+    //recupere les  informations language, username, password  depuis la table sefarpay_configuration,
     global $wpdb;
     $table_name = $wpdb->prefix . 'sefarpay_configuration';
     $config = $wpdb->get_row("SELECT * FROM $table_name WHERE id = 1", ARRAY_A);
     $language  = $config['language'] ?? 'fr'; // Langue par défaut
     $userName  = $config['username'] ?? ''; // Nom d'utilisateur SATIM  
     $password  = $config['password'] ?? ''; // Mot de passe SATIM
+    $return_url  = $config['return_url'] ?? '';
+    $fail_url  = $config['fail_url'] ?? '';
+
+
+
+
+    //recupere les  informations nom, prenom, client_id, email depuis la table sefarpay_enregistrements
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'sefarpay_enregistrements';
+    $enreg = $wpdb->get_row("SELECT * FROM $table_name WHERE id = 1", ARRAY_A);
+    $name = $enreg['nom'] . ' ' . $enreg['prenom'];
+    $email = $enreg['email'];
+    $telephone = $enreg['telephone'];
+    $client_id = $enreg['sefarpay_id'];
 
     // Construction de l'URL de confirmation SATIM
+    $base_url = SEFARPAY_API_URL_PAYMENT_CONFIRMATON;
     $confirm_url = sprintf(
-        'http://localhost/satimtest/confirmOrder.php?language=%s&orderId=%s&password=%s&userName=%s',
+        $base_url . '?language=%s&orderId=%s&password=%s&userName=%s',
         urlencode($language),
         urlencode($order_id),
         urlencode($password),
@@ -121,7 +153,6 @@ function sefarpay_payment_success_shortcode()
     }
 
     // Préparation des données à afficher
-
     $transaction_data = [
         'order_number'     => $data['OrderNumber'] ?? '',
         'order_status'     => $data['OrderStatus'] ?? null,
@@ -169,11 +200,11 @@ function sefarpay_payment_success_shortcode()
     */
 
     //enregistrer les données dans l'API distante de sefarpay_management
-    $api_url = 'http://localhost/sefarpay_management/wp-json/sefarpay_management/v1/new-payment';
+    $api_url = SEFARPAY_API_URL_NEW_PAYMENT;
 
     // Construction des données à envoyer à l'API
     $payload = [
-        'client_id'          => 1, // ID du client, à adapter selon votre logique
+        'client_id'          => $client_id, // ID du client, à adapter selon votre logique
         'numero_commande'     => $transaction_data['order_number'],
         'montant'             => $transaction_data['amount'],
         'devise'              => $transaction_data['currency'],
@@ -185,8 +216,16 @@ function sefarpay_payment_success_shortcode()
         'description_action'  => $transaction_data['resp_message'],
         'etat_paiement'       => $transaction_data['order_status'],
         'description'         => $transaction_data['error_message'],
+        'transaction_satim_id'         => $order_id,
         'created_at'          => current_time('mysql', 1),
-        'transaction_id'      => $order_id
+        'date_paiement'          => current_time('mysql', 1),
+        'transaction_id'      => $order_id,
+        'nom_client' => $name,
+        'telephone_client' => $telephone,
+        'email_client' => $email,
+        'return_url' => $return_url,
+        'fail_url' => $fail_url
+
     ];
 
     // Envoi de la requête POST à l’API distante
@@ -239,8 +278,9 @@ function sefarpay_payment_declined_shortcode()
     $password  = $config['password'] ?? ''; // Mot de passe SATIM
 
     // Construction de l'URL de confirmation SATIM
+    $base_url = SEFARPAY_API_URL_PAYMENT_CONFIRMATON;
     $confirm_url = sprintf(
-        'http://localhost/satimtest/confirmOrder.php?language=%s&orderId=%s&password=%s&userName=%s',
+        $base_url . '?language=%s&orderId=%s&password=%s&userName=%s',
         urlencode($language),
         urlencode($order_id),
         urlencode($password),

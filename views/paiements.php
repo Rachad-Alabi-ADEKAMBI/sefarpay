@@ -17,8 +17,6 @@
 
 
 
-
-
     <div class="container">
         <div class="page-header">
             <h1>Liste des Paiements {{ message }}</h1>
@@ -79,14 +77,11 @@
                 <table class="payments-table">
                     <thead>
                         <tr>
-                            <th><i class="fas fa-sort"></i> Numéro de commande</th>
-                            <th><i class="fas fa-sort"></i> Utilisateur</th>
-                            <th><i class="fas fa-sort"></i> ID Transaction</th>
+                            <th><i class="fas fa-sort"></i> Numéro Commande</th>
+                            <th><i class="fas fa-sort"></i> Numéro Transaction</th>
                             <th><i class="fas fa-sort"></i> Date</th>
-                            <th><i class="fas fa-sort"></i> Description</th>
                             <th><i class="fas fa-sort"></i> Montant</th>
-                            <th><i class="fas fa-sort"></i> Moyen</th>
-                            <th><i class="fas fa-sort"></i> État</th>
+                            <th><i class="fas fa-sort"></i> Statut Commande </th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -97,20 +92,9 @@
                                 :key="paiement.id"
                                 :data-id="index + 1">
                                 <td>{{ paiement.numero_commande }}</td>
-                                <td>
-                                    <div class="tooltip">
-                                        {{ paiement.nom_utilisateur }}
-                                        <span class="tooltip-text">
-                                            {{ paiement.email_utilisateur }}<br />
-                                            {{ paiement.telephone_utilisateur }}
-                                        </span>
-                                    </div>
-                                </td>
                                 <td>{{ paiement.transaction_id }}</td>
-                                <td>{{ paiement.date_paiement }}</td>
-                                <td>{{ paiement.description }}</td>
+                                <td>{{ paiement.created_at }}</td>
                                 <td>{{ formatAmount(paiement.montant, paiement.devise) }}</td>
-                                <td>{{ paiement.moyen_paiement }}</td>
                                 <td>
                                     <span
                                         :class="['status', 'status-' + paiement.etat_paiement.toLowerCase()]">

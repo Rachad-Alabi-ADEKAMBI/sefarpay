@@ -48,7 +48,7 @@ function sefarpay_render_accueil_page()
 {
     global $wpdb;
 
-    $validation_url = 'http://localhost/sefarpay_management/wp-json/sefarpay_management/v1/account_status';
+    $validation_url = SEFARPAY_API_URL_CHECK_ACCOUNT_STATUS;
 
     // Récupérer le sefarpay_id depuis la table sefarpay_enregistrements
     $table_enregistrements = $wpdb->prefix . 'sefarpay_enregistrements';
@@ -90,20 +90,7 @@ function sefarpay_render_configuration_page()
     ]);
 }
 
-/*
-function sefarpay_render_enregistrement_page()
-{
-    global $wpdb;
-    $table_name = $wpdb->prefix . 'sefarpay_enregistrements';
 
-    // Récupérer un seul enregistrement (exemple: le premier)
-    $enregistrement = $wpdb->get_row("SELECT * FROM $table_name LIMIT 1", ARRAY_A);
-
-    sefarpay_render_html_view('enregistrement.php', [
-        'enregistrement' => $enregistrement,
-    ]);
-}
-    */
 
 function sefarpay_render_enregistrement_page()
 {

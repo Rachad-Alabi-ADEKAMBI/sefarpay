@@ -84,7 +84,7 @@ function sefarpay_save_registration()
         $insert_id = $wpdb->insert_id; // ID de la ligne insérée
 
         // Envoi vers API du fournisseur
-        $response = wp_remote_post('http://localhost/sefarpay_management/wp-json/sefarpay_management/v1/register', [
+        $response = wp_remote_post(SEFARPAY_API_URL_REGISTER, [
             'method'  => 'POST',
             'headers' => ['Content-Type' => 'application/json'],
             'body'    => wp_json_encode($data),

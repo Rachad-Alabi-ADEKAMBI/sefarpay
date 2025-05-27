@@ -36,7 +36,8 @@ function sefarpay_handle_payment()
         'jsonParams'  => $jsonParams,
     ]);
 
-    $url = 'http://localhost/satimtest/do.php?' . $query;
+    $base_url = SEFARPAY_API_URL_PAYMENT_DO;
+    $url = $base_url . $query;
 
     // Envoi de la requête
     $response = wp_remote_get($url, ['timeout' => 20]);

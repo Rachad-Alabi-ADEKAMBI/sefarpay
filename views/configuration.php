@@ -31,7 +31,6 @@
             <div class="form-group">
               <label for="source_identifier" class="required">Source Identifier</label>
               <div class="input-wrapper">
-                <i class="fas fa-fingerprint"></i>
                 <input
                   type="text"
                   id="source_identifier"
@@ -41,7 +40,7 @@
                   required />
               </div>
               <div class="tooltip">
-                <i class="fas fa-info-circle"></i>
+
                 <span class="tooltip-text">Identifiant unique fourni par SATIM pour votre
                   compte.</span>
               </div>
@@ -87,7 +86,6 @@
                   required />
               </div>
               <div class="tooltip">
-                <i class="fas fa-info-circle"></i>
                 <span class="tooltip-text">Adresse de base de l'API SATIM pour les appels.</span>
               </div>
             </div>
@@ -112,7 +110,7 @@
                 </select>
               </div>
               <div class="tooltip">
-                <i class="fas fa-info-circle"></i>
+
                 <span class="tooltip-text">Code ISO de la devise utilisée pour les transactions.</span>
               </div>
             </div>
@@ -128,7 +126,7 @@
 
               </div>
               <div class="tooltip">
-                <i class="fas fa-info-circle"></i>
+
                 <span class="tooltip-text">Code langue utilisé dans l'interface de paiement.</span>
               </div>
             </div>
@@ -145,7 +143,7 @@
                   value="<?php echo esc_attr($configuration['json_params'] ?? ''); ?>"></textarea>
               </div>
               <div class="tooltip">
-                <i class="fas fa-info-circle"></i>
+
                 <span class="tooltip-text">Paramètres additionnels en format JSON pour personnaliser
                   les transactions.</span>
               </div>
@@ -168,11 +166,10 @@
                   id="return_url"
                   name="return_url"
                   placeholder="https://votre-site.com/success"
-                  value="<?php echo esc_attr($configuration['return_url'] ?? ''); ?>"></textarea>
-                required />
+                  value="<?php echo esc_attr($configuration['return_url'] ?? ''); ?>">
               </div>
               <div class="tooltip">
-                <i class="fas fa-info-circle"></i>
+
                 <span class="tooltip-text">URL de redirection après une transaction réussie.</span>
               </div>
             </div>
@@ -189,7 +186,7 @@
                   required></textarea>
               </div>
               <div class="tooltip">
-                <i class="fas fa-info-circle"></i>
+
                 <span class="tooltip-text">URL de redirection après une transaction échouée.</span>
               </div>
             </div>
@@ -214,7 +211,7 @@
                   value="<?php echo esc_attr($configuration['captcha_site_key'] ?? ''); ?>"></textarea>
               </div>
               <div class="tooltip">
-                <i class="fas fa-info-circle"></i>
+
                 <span class="tooltip-text">Clé publique pour l'intégration de Google reCAPTCHA.</span>
               </div>
             </div>
@@ -230,7 +227,7 @@
                   value="<?php echo esc_attr($configuration['captcha_secret_key'] ?? ''); ?>"></textarea>
               </div>
               <div class="tooltip">
-                <i class="fas fa-info-circle"></i>
+
                 <span class="tooltip-text">Clé privée pour la validation côté serveur de Google
                   reCAPTCHA.</span>
               </div>
@@ -249,7 +246,7 @@
                   value="<?php echo esc_attr($configuration['cgu_url'] ?? ''); ?>"></textarea>
               </div>
               <div class="tooltip">
-                <i class="fas fa-info-circle"></i>
+
                 <span class="tooltip-text">Lien vers les conditions générales d'utilisation du service
                   de paiement.</span>
               </div>
@@ -281,7 +278,7 @@
                   style="background-color: #0054a6"></span>
               </div>
               <div class="tooltip">
-                <i class="fas fa-info-circle"></i>
+
                 <span class="tooltip-text">Couleur par défaut pour le bouton de paiement.</span>
               </div>
             </div>

@@ -46,9 +46,10 @@
             // Récupération des infos
             $order_id = $order->get_id();
             $amount = $order->get_total(); // Cela retourne un float ou string comme "124.00"
+            $new_amount = $amount * 100;
             $orderNumber = $order->get_order_number();
 
-            echo "Commande #$orderNumber (ID : $order_id) – Montant : $amount";
+            // echo "Commande #$orderNumber (ID : $order_id) – Montant : $amount";
 
 
             // Données pour personnalisation bouton
@@ -85,7 +86,9 @@
                 <i class="fas fa-credit-card"></i>Paiement
             </h2>
 
-            <form method="get" action="http://localhost/satimtest/do.php?" id="payment-form">
+            <?php $url_do = SEFARPAY_API_URL_PAYMENT_DO;  ?>
+
+            <form method="get" action="<?= $url_do ?>" id="payment-form">
                 <input type="hidden" name="action" value="sefarpay_payment">
 
                 <input type="text" id="currency" name="currency" style="display: none;" value="<?php echo $currency; ?>" />
@@ -102,14 +105,14 @@
 
                 <textarea id="jsonParams" name="jsonParams" style="display: none;" rows="4"><?php echo $jsonParams; ?></textarea>
 
-                <input type="text" id="amount" name="amount" style="display: none;" value="<?php echo $amount; ?>" />
+                <input type="text" id="amount" name="amount" style="display: none;" value="<?php echo $new_amount; ?>" />
 
                 <input type="text" id="OrderNumber" name="orderNumber" style="display: none;" value="<?php echo $orderNumber ?>" />
                 <!-- verifier que le client est autorisé à utiliser le plugin sefarpay  -->
                 <?php
                 global $wpdb;
 
-                $validation_url = 'http://localhost/sefarpay_management/wp-json/sefarpay_management/v1/account_status';
+                $validation_url = SEFARPAY_API_URL_CHECK_ACCOUNT_STATUS;
 
                 // Récupérer le sefarpay_id depuis la table sefarpay_enregistrements
                 $table_enregistrements = $wpdb->prefix . 'sefarpay_enregistrements';
@@ -205,7 +208,10 @@
 
             const params = new URLSearchParams(new FormData(form)).toString();
 
-            fetch('http://localhost/satimtest/do.php?' + params, {
+            const SEFARPAY_API_URL_PAYMENT = "<?php echo SEFARPAY_API_URL_PAYMENT_DO; ?>";
+
+
+            fetch(SEFARPAY_API_URL_PAYMENT + '?' + params, {
                     method: 'GET',
                     credentials: 'same-origin'
                 })
